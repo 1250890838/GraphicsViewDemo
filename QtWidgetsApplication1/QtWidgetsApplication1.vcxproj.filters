@@ -52,6 +52,9 @@
     <ClCompile Include="PointItem.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="MyRotatedRectGraphicsItem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MainWindow.h">
@@ -70,6 +73,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="PointItem.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MyRotatedRectGraphicsItem.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

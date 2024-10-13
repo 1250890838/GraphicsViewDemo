@@ -13,7 +13,8 @@ public:
         Bottom,
         RightTop,
         Right,
-        RightBottom
+        RightBottom,
+        Rotate
     };
 public:
     PointItem(QGraphicsItem* parent,Edge edge);

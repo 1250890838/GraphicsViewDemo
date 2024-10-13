@@ -10,6 +10,7 @@
 #include "MyGraphicsScene.h"
 #include "MyGraphicsView.h"
 #include "MyRectGraphicsItem.h"
+#include "MyRotatedRectGraphicsItem.h"
 
 MainWindow::MainWindow():
 	m_scene(new MyGraphicsScene(QRectF(QPointF(0,0),QPointF(600,600)),this)),
@@ -63,6 +64,7 @@ void MainWindow::onShapeSelectionChanged(int index) {
 		item = new RectGraphicsItem(nullptr, 200, 120);
 		break;
 	case 1:
+		item = new RotatedRectGraphicsItem(nullptr, 200, 120);
 		break;
 	case 2:
 		break;

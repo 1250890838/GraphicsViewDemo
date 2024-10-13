@@ -44,6 +44,8 @@ void PointItem::hoverMoveEvent(QGraphicsSceneHoverEvent* event)
     case PointItem::RightBottom:
         setCursor(QCursor(Qt::SizeFDiagCursor));
         break;
+    case PointItem::Rotate:
+        break;
     default:
         break;
     }
@@ -118,6 +120,9 @@ void PointItem::moveLogic(qreal dx, qreal dy)
         break;
     case PointItem::RightBottom:
         rect.setBottomRight(rect.bottomRight() + QPointF{ dx,dy });
+        break;
+    case PointItem::Rotate:
+        parentItem->setRotation(rotation() + dx);
         break;
     default:
         break;

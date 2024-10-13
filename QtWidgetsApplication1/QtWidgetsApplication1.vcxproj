@@ -97,6 +97,7 @@
     <ClCompile Include="MyGraphicsScene.cpp" />
     <ClCompile Include="MyGraphicsView.cpp" />
     <ClCompile Include="MyRectGraphicsItem.cpp" />
+    <ClCompile Include="MyRotatedRectGraphicsItem.cpp" />
     <ClCompile Include="PointItem.cpp" />
     <QtRcc Include="QtWidgetsApplication1.qrc" />
     <QtUic Include="QtWidgetsApplication1.ui" />
@@ -108,6 +109,7 @@
     <ClInclude Include="MyGraphicsScene.h" />
     <ClInclude Include="MyGraphicsView.h" />
     <ClInclude Include="MyRectGraphicsItem.h" />
+    <ClInclude Include="MyRotatedRectGraphicsItem.h" />
     <ClInclude Include="PointItem.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
