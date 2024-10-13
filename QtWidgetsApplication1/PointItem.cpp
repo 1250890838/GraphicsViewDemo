@@ -18,26 +18,31 @@ void PointItem::hoverMoveEvent(QGraphicsSceneHoverEvent* event)
     switch (m_edge)
     {
     case PointItem::LeftTop:
+        setCursor(QCursor(Qt::SizeFDiagCursor));
         break;
     case PointItem::Left:
-        setCursor(QCursor(Qt::SizeVerCursor));
+        setCursor(QCursor(Qt::SizeHorCursor));
         break;
     case PointItem::LeftBottom:
+        setCursor(QCursor(Qt::SizeBDiagCursor));
         break;
     case PointItem::Top:
-        setCursor(QCursor(Qt::SizeHorCursor));
-        break;
-    case PointItem::Middle:
-        break;
-    case PointItem::Bottom:
-        setCursor(QCursor(Qt::SizeHorCursor));
-        break;
-    case PointItem::RightTop:
-        break;
-    case PointItem::Right:
         setCursor(QCursor(Qt::SizeVerCursor));
         break;
+    case PointItem::Middle:
+        setCursor(QCursor(Qt::OpenHandCursor));
+        break;
+    case PointItem::Bottom:
+        setCursor(QCursor(Qt::SizeVerCursor));
+        break;
+    case PointItem::RightTop:
+        setCursor(QCursor(Qt::SizeBDiagCursor));
+        break;
+    case PointItem::Right:
+        setCursor(QCursor(Qt::SizeHorCursor));
+        break;
     case PointItem::RightBottom:
+        setCursor(QCursor(Qt::SizeFDiagCursor));
         break;
     default:
         break;
@@ -70,7 +75,13 @@ QRectF PointItem::boundingRect() const
 
 void PointItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget)
 {
-    painter->setBrush(Qt::blue);
+    if (parentItem()->isSelected()) {
+        painter->setBrush(Qt::blue);
+    }
+    else {
+        painter->setBrush(Qt::white);
+    }
+
     painter->setPen(Qt::black);
     painter->drawRect(m_rect);
 }
@@ -94,12 +105,13 @@ void PointItem::moveLogic(qreal dx, qreal dy)
         rect.setTop(rect.top() + dy);
         break;
     case PointItem::Middle:
+        parentItem->moveBy(dx, dy);
         break;
     case PointItem::Bottom:
         rect.setBottom(rect.bottom() + dy);
         break;
     case PointItem::RightTop:
-        rect.setTopRight(rect.bottomRight() + QPointF{ dx,dy });
+        rect.setTopRight(rect.topRight() + QPointF{ dx,dy });
         break;
     case PointItem::Right:
         rect.setRight(rect.right() + dx);
