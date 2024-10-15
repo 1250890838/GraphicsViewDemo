@@ -89,11 +89,7 @@ void MainWindow::onShapeSelectionChanged(int index) {
 		break;
 	case 4:
 	{
-		CircleGraphicsItem* innerItem = new CircleGraphicsItem(nullptr);
-		CircleGraphicsItem* outerItem = new CircleGraphicsItem(nullptr);
-		item = new RingGraphicsItem(nullptr, innerItem, outerItem);
-		m_scene->addItem(innerItem);
-		m_scene->addItem(outerItem);
+		item = new RingGraphicsItem(nullptr);
 		m_scene->setState(MyGraphicsScene::ForCirclePress);
 		connect(dynamic_cast<RingGraphicsItem*>(item), &RingGraphicsItem::changeSceneToGetRingLeftPressAndHoverPoint, m_scene, &MyGraphicsScene::onChangeSceneToGetRingLeftPressAndHoverPoint);
 		connect(dynamic_cast<RingGraphicsItem*>(item), &RingGraphicsItem::changeSceneToGetRingRightPressAndHoverPoint, m_scene, &MyGraphicsScene::onChangeSceneToGetRingRightPressAndHoverPoint);

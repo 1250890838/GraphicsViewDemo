@@ -12,7 +12,7 @@ public:
     MyGraphicsItem(QGraphicsItem* parent,qreal width,qreal height);
     
     void setRect(QRectF rect) { m_rect = rect; }
-    QRectF rect() { return m_rect; }
+    QRectF rect() const { return m_rect; }
     
     virtual void updatePointList();
     virtual QRectF boundingRect() const override;

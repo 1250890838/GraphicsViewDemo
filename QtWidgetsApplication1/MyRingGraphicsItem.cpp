@@ -5,29 +5,24 @@
 #include <QPainter>
 #include <cmath>
 
-RingGraphicsItem::RingGraphicsItem(QGraphicsItem* parent,CircleGraphicsItem* innerItem,CircleGraphicsItem* outerItem)
-	:MyGraphicsItem(parent),
-	m_innerItem(innerItem),
-	m_outerItem(outerItem)
-{
-}
-
-void RingGraphicsItem::updatePointList()
+RingGraphicsItem::RingGraphicsItem(QGraphicsItem* parent)
+	:CircleGraphicsItem(parent),
+	m_outerItem(new CircleGraphicsItem(this))
 {
 }
 
 void RingGraphicsItem::onNewLeftPressedPoint(QPointF point) {
-	if (m_innerItem->pointsCount() < 2) {
+	if (m_points.count() < 2) {
 		PointItem* item = new PointItem(nullptr, PointItem::Paint);
 		item->setPos(point);
 		scene()->addItem(item);
-		m_innerItem->appendPoint(item);
+		m_points.append(item);
 	}
-	if (m_innerItem->pointsCount() == 2)
+	if (m_points.count() == 2)
 		emit changeSceneToGetRingLeftPressAndHoverPoint();
-	else if (m_innerItem->pointsCount() == 3) {
-		m_innerItem->pointAt(2)->setPos(point);
-		m_innerItem->pointsDetermineCircle();
+	else if (m_points.count() == 3) {
+		m_points[2]->setPos(point);
+		pointsDetermineCircle();
 		emit changeSceneToGetRingRightPressAndHoverPoint();
 		PointItem* item = new PointItem(nullptr, PointItem::Paint);
 		item->setPos(point);
@@ -38,23 +33,23 @@ void RingGraphicsItem::onNewLeftPressedPoint(QPointF point) {
 }
 
 void RingGraphicsItem::onNewRightPressedPoint(QPointF point) {
-	QPointF innerItemPoint = m_innerItem->pos();
-	qreal innerItemRadius = m_innerItem->rect().width() / 2;
+	QPointF innerItemPoint = pos();
+	qreal innerItemRadius = rect().width() / 2;
 	QPointF innerItemCenter = innerItemPoint - QPointF{ innerItemRadius, innerItemRadius };
 	qreal outerItemRadius = sqrt(pow(point.x() - innerItemCenter.x(), 2) + pow(point.y() - innerItemCenter.x(), 2));
 	m_outerItem->setRect({ -(outerItemRadius - innerItemRadius),-(outerItemRadius - innerItemRadius),
 		outerItemRadius * 2,outerItemRadius * 2 });
 
-	m_innerItem->clear();
-	PointItem* innerLeftItem = new PointItem(m_innerItem, PointItem::Left);
-	m_innerItem->appendPoint(innerLeftItem);
-	PointItem* innerTopItem = new PointItem(m_innerItem, PointItem::Top);
-	m_innerItem->appendPoint(innerTopItem);
-	PointItem* innerRightItem = new PointItem(m_innerItem, PointItem::Right);
-	m_innerItem->appendPoint(innerRightItem);
-	PointItem* innerBottomItem = new PointItem(m_innerItem, PointItem::Bottom);
-	m_innerItem->appendPoint(innerBottomItem);
-	m_innerItem->updatePointList();
+	clear();
+	PointItem* innerLeftItem = new PointItem(this, PointItem::Left);
+	this->appendPoint(innerLeftItem);
+	PointItem* innerTopItem = new PointItem(this, PointItem::Top);
+	this->appendPoint(innerTopItem);
+	PointItem* innerRightItem = new PointItem(this, PointItem::Right);
+	this->appendPoint(innerRightItem);
+	PointItem* innerBottomItem = new PointItem(this, PointItem::Bottom);
+	this->appendPoint(innerBottomItem);
+	this->updatePointList();
 
 	m_outerItem->clear();
 	PointItem* outerLeftItem = new PointItem(m_outerItem, PointItem::Left);
@@ -65,45 +60,43 @@ void RingGraphicsItem::onNewRightPressedPoint(QPointF point) {
 	m_outerItem->appendPoint(outerRightItem);
 	PointItem* outerBottomItem = new PointItem(m_outerItem, PointItem::Bottom);
 	m_outerItem->appendPoint(outerBottomItem);
-	m_outerItem->pos() = m_innerItem->pos();
+	m_outerItem->pos() = pos();
 	m_outerItem->updatePointList();
-	setPos(m_innerItem->pos());
+	setPos(pos());
 }
 
 void RingGraphicsItem::onNewHoveredPoint(QPointF point) {
-	if (m_innerItem->pointsCount() == 2) {
+	if (this->pointsCount() == 2) {
 		PointItem* item = new PointItem(nullptr,PointItem::Paint);
 		item->setPos(point);
 		scene()->addItem(item);
-		m_innerItem->appendPoint(item);
-		m_innerItem->enablePainting = true;
-		m_innerItem->pointsDetermineCircle();
+		this->appendPoint(item);
+		this->enablePainting = true;
+		this->pointsDetermineCircle();
 	}
-	else if (m_innerItem->pointsCount() == 3 && !m_outerItem->pointsCount()) {
-		m_innerItem->pointAt(2)->setPos(point);
-		m_innerItem->pointsDetermineCircle();
+	else if (this->pointsCount() == 3 && !m_outerItem->pointsCount()) {
+		this->pointAt(2)->setPos(point);
+		this->pointsDetermineCircle();
 	}
 	else if (m_outerItem->pointsCount()) {
 		m_outerItem->pointAt(0)->setPos(point);
-		QPointF innerItemPoint = m_innerItem->pos();
-		qreal innerItemRadius = m_innerItem->rect().width() / 2;
+		QPointF innerItemPoint = this->pos();
+		qreal innerItemRadius = this->rect().width() / 2;
 		QPointF innerItemCenter = innerItemPoint - QPointF{ innerItemRadius, innerItemRadius };
 		qreal outerItemRadius = sqrt(pow(point.x() - innerItemCenter.x(), 2) + pow(point.y() - innerItemCenter.x(), 2));
 		m_outerItem->setRect({ -(outerItemRadius - innerItemRadius),-(outerItemRadius - innerItemRadius),
 			outerItemRadius * 2,outerItemRadius * 2 });
-		m_outerItem->setPos(m_innerItem->pos());
+		m_outerItem->setPos(this->mapFromScene(this->pos()));
 	}
 }
 
 QRectF RingGraphicsItem::boundingRect() const {
-	QRectF innerRect = m_innerItem->rect();
+	QRectF innerRect = rect();
 	QRectF outerRect = m_outerItem->rect();
 	return innerRect.width() > outerRect.width() ? innerRect : outerRect;
 }
 
 void RingGraphicsItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget)
 {
-	painter->save();
-
-	painter->restore();
+	CircleGraphicsItem::paint(painter, option, widget);
 }

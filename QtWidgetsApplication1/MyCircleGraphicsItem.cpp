@@ -5,6 +5,7 @@
 #include <QPair>
 
 CircleGraphicsItem::CircleGraphicsItem(QGraphicsItem* parent):
+	MyGraphicsItem(parent),
 	enablePainting(false)
 {
 }
@@ -66,6 +67,7 @@ void CircleGraphicsItem::mouseReleaseEvent(QGraphicsSceneMouseEvent* event)
 
 void CircleGraphicsItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget)
 {
+	qDebug() << (void*)this;
 	if (!enablePainting) return;
 	painter->setPen(Qt::red);
 	painter->drawEllipse(m_rect);
