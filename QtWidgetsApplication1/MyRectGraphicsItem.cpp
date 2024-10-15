@@ -12,21 +12,6 @@ RectGraphicsItem::RectGraphicsItem(QGraphicsItem* parent, qreal width, qreal hei
 		m_points.append(point);
 	}
 	updatePointList();
-
-}
-
-void RectGraphicsItem::updatePointList()
-{
-	/*
-	QList<QPointF> positions = {
-		{m_rect.x() + -4,m_rect.y() + -4},{m_rect.x() + -4,m_rect.y() + m_rect.height() / 2 - 4},{m_rect.x() + -4,m_rect.y() + m_rect.height() - 4},
-		{m_rect.x() + m_rect.width() / 2 - 4,m_rect.y() + -4},{m_rect.x() + m_rect.width() / 2 - 4,m_rect.y() + m_rect.height() / 2 - 4},{m_rect.x() + m_rect.width() / 2 - 4,m_rect.y() + m_rect.height() - 4},
-		{m_rect.x() + m_rect.width() - 4,m_rect.y() + -4},{m_rect.x() + m_rect.width() - 4,m_rect.y() + m_rect.height() / 2 - 4},{m_rect.x() + m_rect.width() - 4,m_rect.y() + m_rect.height() - 4}
-	};
-	*/
-	for (auto item : m_points) {
-		item->adjustPosition();
-	}
 }
 
 void RectGraphicsItem::mouseMoveEvent(QGraphicsSceneMouseEvent* event)

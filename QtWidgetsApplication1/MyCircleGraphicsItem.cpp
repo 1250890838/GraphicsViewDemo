@@ -9,22 +9,6 @@ CircleGraphicsItem::CircleGraphicsItem(QGraphicsItem* parent):
 {
 }
 
-void CircleGraphicsItem::updatePointList()
-{
-	/*
-	PointItem* left = m_points[0];
-	left->setPos(m_rect.x() - 4, m_rect.y() + m_rect.height() / 2 - 4);
-	PointItem* top = m_points[1];
-	top->setPos(m_rect.x() + m_rect.width() / 2 - 4, m_rect.y() - 4);
-	PointItem* right = m_points[2];
-	right->setPos(m_rect.x() + m_rect.width() - 4, m_rect.y() + m_rect.height() / 2 - 4);
-	PointItem* bottom = m_points[3];
-	bottom->setPos(m_rect.x() + m_rect.width() / 2 - 4, m_rect.y() + m_rect.height() - 4);
-	*/
-	for (auto item : m_points)
-		item->adjustPosition();
-}
-
 void CircleGraphicsItem::onNewLeftPressedPoint(QPointF point) {
 	PointItem* item = new PointItem(nullptr, PointItem::Paint);
 	item->setPos(point);

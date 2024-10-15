@@ -49,3 +49,10 @@ void MyGraphicsItem::clear()
 	}
 	m_points.clear();
 }
+
+void MyGraphicsItem::updatePointList()
+{
+	for (auto item : m_points) {
+		item->adjustPosition();
+	}
+}

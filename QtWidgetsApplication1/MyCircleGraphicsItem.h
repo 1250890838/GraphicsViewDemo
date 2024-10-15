@@ -6,7 +6,6 @@ class CircleGraphicsItem :
     Q_OBJECT
 public:
     CircleGraphicsItem(QGraphicsItem* parent);
-    virtual void updatePointList() override;
     void pointsDetermineCircle();
 public slots:
     void onNewLeftPressedPoint(QPointF point);

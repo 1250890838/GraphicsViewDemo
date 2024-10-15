@@ -9,9 +9,7 @@ class RectGraphicsItem :
 {
 public:
     RectGraphicsItem(QGraphicsItem* parent, qreal width, qreal height);
-    virtual void updatePointList() override;
 protected:
-
     virtual void mouseMoveEvent(QGraphicsSceneMouseEvent* event) override;
     virtual void mousePressEvent(QGraphicsSceneMouseEvent* event) override;
     virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent* event) override;
