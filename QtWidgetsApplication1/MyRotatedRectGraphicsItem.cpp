@@ -11,6 +11,6 @@ RotatedRectGraphicsItem::RotatedRectGraphicsItem(QGraphicsItem* parent, qreal wi
 void RotatedRectGraphicsItem::updatePointList()
 {
 	RectGraphicsItem::updatePointList();
-	auto rotatedPoint = m_points[9];
-	rotatedPoint->setPos(m_rect.x() + m_rect.width() / 2 - 4, m_rect.y() - 15);
+	auto rotatedPoint = m_points[static_cast<int>(PointItem::Rotate)];
+	rotatedPoint->setPos(m_rect.x() + m_rect.width() / 2 - 4, m_rect.y() - 0.15 * m_rect.height());
 }

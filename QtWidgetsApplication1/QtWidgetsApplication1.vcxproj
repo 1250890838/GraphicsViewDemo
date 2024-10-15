@@ -92,24 +92,33 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <QtRcc Include="QtWidgetsApplication1.qrc" />
+    <QtUic Include="QtWidgetsApplication1.ui" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp" />
     <ClCompile Include="MainWindow.cpp" />
+    <ClCompile Include="MyCircleGraphicsItem.cpp" />
     <ClCompile Include="MyGraphicsItem.cpp" />
     <ClCompile Include="MyGraphicsScene.cpp" />
     <ClCompile Include="MyGraphicsView.cpp" />
+    <ClCompile Include="MyOvalGraphicsItem.cpp" />
     <ClCompile Include="MyRectGraphicsItem.cpp" />
+    <ClCompile Include="MyRingGraphicsItem.cpp" />
     <ClCompile Include="MyRotatedRectGraphicsItem.cpp" />
     <ClCompile Include="PointItem.cpp" />
-    <QtRcc Include="QtWidgetsApplication1.qrc" />
-    <QtUic Include="QtWidgetsApplication1.ui" />
-    <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="MainWindow.h" />
-    <ClInclude Include="MyGraphicsItem.h" />
-    <ClInclude Include="MyGraphicsScene.h" />
+    <QtMoc Include="MainWindow.h" />
+    <QtMoc Include="MyCircleGraphicsItem.h" />
+    <QtMoc Include="MyGraphicsItem.h" />
+    <QtMoc Include="MyGraphicsScene.h" />
     <ClInclude Include="MyGraphicsView.h" />
+    <ClInclude Include="MyOvalGraphicsItem.h" />
     <ClInclude Include="MyRectGraphicsItem.h" />
+    <QtMoc Include="MyRingGraphicsItem.h" />
     <ClInclude Include="MyRotatedRectGraphicsItem.h" />
+    <ClInclude Include="opencv_dependencies.h" />
     <ClInclude Include="PointItem.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

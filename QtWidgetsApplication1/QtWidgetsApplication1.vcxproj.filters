@@ -37,6 +37,9 @@
     <ClCompile Include="MainWindow.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="MyCircleGraphicsItem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="MyGraphicsItem.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -46,37 +49,57 @@
     <ClCompile Include="MyGraphicsView.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="MyOvalGraphicsItem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="MyRectGraphicsItem.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="PointItem.cpp">
+    <ClCompile Include="MyRingGraphicsItem.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="MyRotatedRectGraphicsItem.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="PointItem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="MainWindow.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="MyGraphicsItem.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="MyGraphicsScene.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="MyGraphicsView.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MyOvalGraphicsItem.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="MyRectGraphicsItem.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="PointItem.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="MyRotatedRectGraphicsItem.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="opencv_dependencies.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PointItem.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <QtMoc Include="MyGraphicsScene.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="MainWindow.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="MyCircleGraphicsItem.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="MyRingGraphicsItem.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="MyGraphicsItem.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
   </ItemGroup>
 </Project>

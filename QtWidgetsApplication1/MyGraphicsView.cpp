@@ -27,3 +27,8 @@ void MyGraphicsView::mousePressEvent(QMouseEvent* event)
 {
 	QGraphicsView::mousePressEvent(event);
 }
+
+
+
+
+

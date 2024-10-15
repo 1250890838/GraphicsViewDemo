@@ -7,4 +7,3 @@ public:
     RotatedRectGraphicsItem(QGraphicsItem* parent, qreal width, qreal height);
     virtual void updatePointList() override;
 };
-

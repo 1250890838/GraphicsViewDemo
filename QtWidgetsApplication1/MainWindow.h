@@ -9,6 +9,7 @@
 class MainWindow :
     public QMainWindow
 {
+    Q_OBJECT
 public:
     MainWindow();
 private slots:
@@ -17,6 +18,7 @@ private slots:
 private:
     QComboBox* m_combobox;
     QPushButton* m_addImageButton;
+    QPushButton* m_clearButton;
     MyGraphicsScene* m_scene;
     MyGraphicsView* m_view;
     QGraphicsItem* m_currItem;

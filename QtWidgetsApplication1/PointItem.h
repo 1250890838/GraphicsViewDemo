@@ -14,10 +14,19 @@ public:
         RightTop,
         Right,
         RightBottom,
-        Rotate
+        Rotate,
+        Paint // just for painting,not other function
+    };
+
+    enum Pos {
+        Outer,
+        Inner
     };
 public:
-    PointItem(QGraphicsItem* parent,Edge edge);
+    PointItem(QGraphicsItem* parent, Edge edge,Pos pos=Inner);
+    void setEdge(Edge edge) { m_edge = edge; }
+    void adjustPosition();
+
 protected:
     void hoverMoveEvent(QGraphicsSceneHoverEvent* event) override;
     virtual void mouseMoveEvent(QGraphicsSceneMouseEvent* event) override;
@@ -27,9 +36,9 @@ protected:
     QRectF boundingRect() const override;
     void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = 0) override;
 private:
-    void moveLogic(qreal dx, qreal dy);
+    void moveLogic(QPointF lastPos,QPointF pos);
 private:
     QRectF m_rect;
     Edge m_edge;
+    Pos m_pos;
 };
-
