@@ -1,9 +1,10 @@
+
 #include "MyOvalGraphicsItem.h"
 
 #include <QPainter>
 
-OvalGraphicsItem::OvalGraphicsItem(QGraphicsItem* parent, qreal width, qreal height):
-	MyGraphicsItem(parent,width,height)
+OvalGraphicsItem::OvalGraphicsItem(QGraphicsItem* parent, qreal width, qreal height) :
+	MyGraphicsItem(parent, width, height)
 {
 	m_points.append(new PointItem(this, PointItem::Left));
 	m_points.append(new PointItem(this, PointItem::Top));
@@ -36,6 +37,13 @@ void OvalGraphicsItem::mouseReleaseEvent(QGraphicsSceneMouseEvent* event)
 
 void OvalGraphicsItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget)
 {
-	painter->setPen(Qt::red);
+	MyGraphicsItem::paint(painter, option, widget);
 	painter->drawEllipse(m_rect);
+}
+
+QPainterPath OvalGraphicsItem::shape() const
+{
+	QPainterPath path;
+	path.addEllipse(boundingRect());
+	return path;
 }

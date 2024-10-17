@@ -63,6 +63,14 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
   </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Link>
+      <AdditionalLibraryDirectories>D:\BaiduNetdiskDownload\OpenCV430\OpenCV430\x64\vc14\staticlib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Link>
+    <ClCompile>
+      <AdditionalIncludeDirectories>D:\BaiduNetdiskDownload\OpenCV430\OpenCV430\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+  </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'" Label="Configuration">
     <ClCompile>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
@@ -96,6 +104,7 @@
     <QtUic Include="QtWidgetsApplication1.ui" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="ImageProcessManager.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MainWindow.cpp" />
     <ClCompile Include="MyCircleGraphicsItem.cpp" />
@@ -103,12 +112,17 @@
     <ClCompile Include="MyGraphicsScene.cpp" />
     <ClCompile Include="MyGraphicsView.cpp" />
     <ClCompile Include="MyOvalGraphicsItem.cpp" />
+    <ClCompile Include="MyPolygonGraphicsItem.cpp" />
     <ClCompile Include="MyRectGraphicsItem.cpp" />
     <ClCompile Include="MyRingGraphicsItem.cpp" />
     <ClCompile Include="MyRotatedRectGraphicsItem.cpp" />
+    <ClCompile Include="MyTestPaintItem.cpp" />
     <ClCompile Include="PointItem.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="MyPolygonGraphicsItem.h" />
+    <ClInclude Include="MyTestPaintItem.h" />
+    <QtMoc Include="ImageProcessManager.h" />
     <QtMoc Include="MainWindow.h" />
     <QtMoc Include="MyCircleGraphicsItem.h" />
     <QtMoc Include="MyGraphicsItem.h" />

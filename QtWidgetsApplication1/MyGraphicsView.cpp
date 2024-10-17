@@ -1,3 +1,4 @@
+
 #include "MyGraphicsView.h"
 
 #include <QPixmap>
@@ -19,7 +20,7 @@ void MyGraphicsView::wheelEvent(QWheelEvent* event)
 	if (scale >= 1 || scale <= -1)
 		return;
 	auto matrix = QTransform::fromScale(scale, 1 + scale);
-	this->setTransform(QTransform::fromScale(1+scale, 1+scale),false);
+	this->setTransform(QTransform::fromScale(1 + scale, 1 + scale), false);
 	QGraphicsView::wheelEvent(event);
 }
 
@@ -27,8 +28,3 @@ void MyGraphicsView::mousePressEvent(QMouseEvent* event)
 {
 	QGraphicsView::mousePressEvent(event);
 }
-
-
-
-
-

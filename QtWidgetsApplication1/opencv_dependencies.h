@@ -16,6 +16,7 @@
 #pragma comment(lib,"zlibd.lib")
 #pragma comment(lib,"libwebpd")
 
+
 #include <opencv2/core.hpp>
 #include <opencv2/core/utility.hpp>
 #include "opencv2/imgcodecs.hpp"

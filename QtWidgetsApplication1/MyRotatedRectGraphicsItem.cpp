@@ -12,5 +12,5 @@ void RotatedRectGraphicsItem::updatePointList()
 {
 	RectGraphicsItem::updatePointList();
 	auto rotatedPoint = m_points[static_cast<int>(PointItem::Rotate)];
-	rotatedPoint->setPos(m_rect.x() + m_rect.width() / 2 - 4, m_rect.y() - 0.15 * m_rect.height());
+	rotatedPoint->setPos(rect().x() + rect().width() / 2 - 4, rect().y() - 0.15 * rect().height());
 }

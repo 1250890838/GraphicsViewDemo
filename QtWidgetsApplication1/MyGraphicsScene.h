@@ -1,3 +1,4 @@
+
 #pragma once
 #include <qgraphicsscene.h>
 #include <QMouseEvent> 
@@ -17,14 +18,16 @@ public:
         ForCircleHover,
         ForRingLeftPress,
         ForRingLeftPressAndHover,
-        ForRingRightPressAndHover
+        ForRingRightPressAndHover,
+        ForPolygonLeftRightHover
     };
 public:
     MyGraphicsScene(const QRectF& sceneRect, QObject* parent = nullptr);
     void setState(State state) { m_state = state; }
+    QGraphicsItem* pixmapItem() { return m_pixmapItem; }
+    void setPixmapItem(QGraphicsItem* item) { m_pixmapItem = item; }
 public slots:
     void onChangeSceneToGetCircleHoveredPoint();
-
     void onChangeSceneToGetRingLeftPressAndHoverPoint();
     void onChangeSceneToGetRingRightPressAndHoverPoint();
 signals:
@@ -39,5 +42,5 @@ protected:
     virtual void wheelEvent(QGraphicsSceneWheelEvent* wheelEvent);
 private:
     State m_state;
+    QGraphicsItem* m_pixmapItem;
 };
-

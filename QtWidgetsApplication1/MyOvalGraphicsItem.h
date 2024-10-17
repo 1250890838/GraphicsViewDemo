@@ -1,3 +1,4 @@
+
 #pragma once
 #include "MyGraphicsItem.h"
 
@@ -12,4 +13,5 @@ protected:
     virtual void mousePressEvent(QGraphicsSceneMouseEvent* event) override;
     virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent* event) override;
     void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = 0) override;
+    virtual QPainterPath shape() const override;
 };

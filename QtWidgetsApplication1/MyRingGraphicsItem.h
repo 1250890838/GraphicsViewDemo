@@ -1,3 +1,4 @@
+
 #pragma once
 #include "MyCircleGraphicsItem.h"
 class RingGraphicsItem :
@@ -11,12 +12,14 @@ public slots:
     void onNewRightPressedPoint(QPointF point);
     void onNewHoveredPoint(QPointF point);
 protected:
-    virtual QRectF boundingRect() const override;
+    virtual void mouseMoveEvent(QGraphicsSceneMouseEvent* event) override;
+    virtual void mousePressEvent(QGraphicsSceneMouseEvent* event) override;
+    virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent* event) override;
     virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = 0) override;
+    virtual QPainterPath shape() const override;
 private:
     CircleGraphicsItem* m_outerItem;
 signals:
     void changeSceneToGetRingLeftPressAndHoverPoint();
     void changeSceneToGetRingRightPressAndHoverPoint();
 };
-

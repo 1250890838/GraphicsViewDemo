@@ -8,11 +8,11 @@
 #include <QGraphicsSceneMouseEvent>
 #include <QCursor>
 #include <QDebug>
+#include <QGraphicsScene>
 
-PointItem::PointItem(QGraphicsItem* parent, Edge edge,Pos pos)
+PointItem::PointItem(QGraphicsItem* parent, Edge edge)
     :QAbstractGraphicsShapeItem(parent),
     m_edge(edge),
-    m_pos(pos),
     m_rect(QRectF(0, 0, 8, 8))
 {
     this->setAcceptHoverEvents(true);
@@ -29,24 +29,28 @@ void PointItem::adjustPosition()
         setPos(rect.x() + -4, rect.y() + -4);
         break;
     case PointItem::Left:
+    case PointItem::LeftSide:
         setPos(rect.x() + -4, rect.y() + rect.height() / 2 - 4);
         break;
     case PointItem::LeftBottom:
         setPos(rect.x() + -4, rect.y() + rect.height() - 4);
         break;
     case PointItem::Top:
-        setPos(rect.x() + rect.width() / 2 - 4, rect.y()  -4);
+    case PointItem::TopSide:
+        setPos(rect.x() + rect.width() / 2 - 4, rect.y() - 4);
         break;
     case PointItem::Middle:
         setPos(rect.x() + rect.width() / 2 - 4, rect.y() + rect.height() / 2 - 4);
         break;
     case PointItem::Bottom:
+    case PointItem::BottomSide:
         setPos(rect.x() + rect.width() / 2 - 4, rect.y() + rect.height() - 4);
         break;
     case PointItem::RightTop:
         setPos(rect.x() + rect.width() - 4, rect.y() + -4);
         break;
     case PointItem::Right:
+    case PointItem::RightSide:
         setPos(rect.x() + rect.width() - 4, rect.y() + rect.height() / 2 - 4);
         break;
     case PointItem::RightBottom:
@@ -69,24 +73,28 @@ void PointItem::hoverMoveEvent(QGraphicsSceneHoverEvent* event)
         setCursor(QCursor(Qt::SizeFDiagCursor));
         break;
     case PointItem::Left:
+    case PointItem::LeftSide:
         setCursor(QCursor(Qt::SizeHorCursor));
         break;
     case PointItem::LeftBottom:
         setCursor(QCursor(Qt::SizeBDiagCursor));
         break;
     case PointItem::Top:
+    case PointItem::TopSide:
         setCursor(QCursor(Qt::SizeVerCursor));
         break;
     case PointItem::Middle:
         setCursor(QCursor(Qt::OpenHandCursor));
         break;
     case PointItem::Bottom:
+    case PointItem::BottomSide:
         setCursor(QCursor(Qt::SizeVerCursor));
         break;
     case PointItem::RightTop:
         setCursor(QCursor(Qt::SizeBDiagCursor));
         break;
     case PointItem::Right:
+    case PointItem::RightSide:
         setCursor(QCursor(Qt::SizeHorCursor));
         break;
     case PointItem::RightBottom:
@@ -95,6 +103,9 @@ void PointItem::hoverMoveEvent(QGraphicsSceneHoverEvent* event)
     case PointItem::Rotate:
         setCursor(QCursor(Qt::WaitCursor));
         break;
+    case PointItem::Polygon:
+        setCursor(QCursor(Qt::CrossCursor));
+        break;
     default:
         break;
     }
@@ -102,14 +113,14 @@ void PointItem::hoverMoveEvent(QGraphicsSceneHoverEvent* event)
 
 void PointItem::mouseMoveEvent(QGraphicsSceneMouseEvent* event)
 {
-    moveLogic(event->lastScenePos(),event->scenePos());
+    moveLogic(event->lastScenePos(), event->scenePos());
     QAbstractGraphicsShapeItem::mouseMoveEvent(event);
 }
 
-void PointItem::moveLogic(QPointF lastPos,QPointF pos)
+void PointItem::moveLogic(QPointF lastPos, QPointF pos)
 {
     auto parentItem = dynamic_cast<MyGraphicsItem*>(this->parentItem());
-    if (parentItem == nullptr || m_edge==Paint)
+    if (parentItem == nullptr || m_edge == Paint)
         return;
 
     QRectF rect = parentItem->rect();
@@ -119,7 +130,7 @@ void PointItem::moveLogic(QPointF lastPos,QPointF pos)
     case PointItem::LeftTop:
         rect.setTopLeft(pos);
         break;
-    case PointItem::Left:   
+    case PointItem::Left:
         rect.setLeft(pos.x());
         break;
     case PointItem::LeftBottom:
@@ -133,7 +144,7 @@ void PointItem::moveLogic(QPointF lastPos,QPointF pos)
         QPointF tempPos = parentItem->mapToScene(pos);
         parentItem->moveBy(tempPos.x() - lastPos.x(), tempPos.y() - lastPos.y());
     }
-        break;
+    break;
     case PointItem::Bottom:
         rect.setBottom(pos.y());
         break;
@@ -149,11 +160,51 @@ void PointItem::moveLogic(QPointF lastPos,QPointF pos)
     case PointItem::Rotate:
     {
         QPointF centerPos = parentItem->rect().center();
-        qreal angle = atan2(pos.y()-centerPos.y(),  pos.x()- centerPos.x()) * 180 / M_PI;
+        qreal angle = atan2(pos.y() - centerPos.y(), pos.x() - centerPos.x()) * 180 / M_PI;
         parentItem->setTransformOriginPoint(centerPos);
         parentItem->setRotation(parentItem->rotation() + angle + 90);
     }
-        break;
+    break;
+    case PointItem::LeftSide:
+    {
+        qreal d = pos.x() - rect.left();
+        rect.setLeft(pos.x());
+        rect.setTop(rect.top() + d);
+        rect.setRight(rect.right() - d);
+        rect.setBottom(rect.bottom() - d);
+    }
+    break;
+    case PointItem::TopSide:
+    {
+        qreal d = pos.y() - rect.top();
+        rect.setLeft(rect.left() + d);
+        rect.setTop(pos.y());
+        rect.setRight(rect.right() - d);
+        rect.setBottom(rect.bottom() - d);
+    }
+    break;
+    case PointItem::RightSide:
+    {
+        qreal d = pos.x() - rect.right();
+        rect.setLeft(rect.left() - d);
+        rect.setTop(rect.top() - d);
+        rect.setRight(pos.x());
+        rect.setBottom(rect.bottom() + d);
+    }
+    break;
+    case PointItem::BottomSide:
+    {
+        qreal d = pos.y() - rect.bottom();
+        rect.setLeft(rect.left() - d);
+        rect.setTop(rect.top() - d);
+        rect.setRight(rect.right() + d);
+        rect.setBottom(pos.y());
+    }
+    break;
+    case PointItem::Polygon:
+    {
+        this->setPos(pos);
+    }
     default:
         break;
     }
@@ -168,6 +219,17 @@ void PointItem::mousePressEvent(QGraphicsSceneMouseEvent* event)
 
 void PointItem::mouseReleaseEvent(QGraphicsSceneMouseEvent* event)
 {
+    auto parentItem = dynamic_cast<MyGraphicsItem*>(this->parentItem());
+    if (!parentItem || m_edge == Paint) {
+        QAbstractGraphicsShapeItem::mouseReleaseEvent(event);
+        return;
+    }
+    if (m_edge == Rotate) {
+        parentItem->updateLastRect();
+    }
+
+    QGraphicsSceneMouseEvent* manualEvent = new QGraphicsSceneMouseEvent(QEvent::GraphicsSceneMouseRelease);
+    scene()->sendEvent(parentItem, manualEvent);
     QAbstractGraphicsShapeItem::mouseReleaseEvent(event);
 }
 

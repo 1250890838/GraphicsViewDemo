@@ -15,15 +15,15 @@ public:
         Right,
         RightBottom,
         Rotate,
-        Paint // just for painting,not other function
-    };
-
-    enum Pos {
-        Outer,
-        Inner
+        Paint,// used just for painting,not other function
+        LeftSide, // used for square
+        TopSide,
+        RightSide,
+        BottomSide,
+        Polygon // used for polygon
     };
 public:
-    PointItem(QGraphicsItem* parent, Edge edge,Pos pos=Inner);
+    PointItem(QGraphicsItem* parent, Edge edge);
     void setEdge(Edge edge) { m_edge = edge; }
     void adjustPosition();
 
@@ -36,9 +36,8 @@ protected:
     QRectF boundingRect() const override;
     void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = 0) override;
 private:
-    void moveLogic(QPointF lastPos,QPointF pos);
+    void moveLogic(QPointF lastPos, QPointF pos);
 private:
     QRectF m_rect;
     Edge m_edge;
-    Pos m_pos;
 };

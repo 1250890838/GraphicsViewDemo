@@ -1,10 +1,14 @@
+﻿
 #include "MyCircleGraphicsItem.h"
 
 #include <QGraphicsScene>
 #include <QPainter>
 #include <QPair>
+#include <QGraphicsSceneMouseEvent>
 
-CircleGraphicsItem::CircleGraphicsItem(QGraphicsItem* parent):
+#include "MyGraphicsScene.h"
+#include "ImageProcessManager.h"
+CircleGraphicsItem::CircleGraphicsItem(QGraphicsItem* parent) :
 	MyGraphicsItem(parent),
 	enablePainting(false)
 {
@@ -21,6 +25,12 @@ void CircleGraphicsItem::onNewLeftPressedPoint(QPointF point) {
 
 void CircleGraphicsItem::onNewRightPressedPoint(QPointF point)
 {
+	// the paint is finished,don't receive signal from scene and send signal to scene.
+	disconnect(this, &CircleGraphicsItem::changeSceneToGetHoveredPoint, dynamic_cast<MyGraphicsScene*>(scene()), &MyGraphicsScene::onChangeSceneToGetCircleHoveredPoint);
+	disconnect(dynamic_cast<MyGraphicsScene*>(scene()), &MyGraphicsScene::newLeftPressedPoint, this, &CircleGraphicsItem::onNewLeftPressedPoint);
+	disconnect(dynamic_cast<MyGraphicsScene*>(scene()), &MyGraphicsScene::newHoveredPoint, this, &CircleGraphicsItem::onNewHoveredPoint);
+	disconnect(dynamic_cast<MyGraphicsScene*>(scene()), &MyGraphicsScene::newRightPressedPoint, this, &CircleGraphicsItem::onNewRightPressedPoint);
+
 	m_points[2]->setPos(point);
 
 	pointsDetermineCircle();
@@ -30,10 +40,10 @@ void CircleGraphicsItem::onNewRightPressedPoint(QPointF point)
 	}
 	m_points.clear();
 
-	PointItem* left = new PointItem(this, PointItem::Left);
-	PointItem* top = new PointItem(this, PointItem::Top);
-	PointItem* right = new PointItem(this, PointItem::Right);
-	PointItem* bottom = new PointItem(this, PointItem::Bottom);
+	PointItem* left = new PointItem(this, PointItem::LeftSide);
+	PointItem* top = new PointItem(this, PointItem::TopSide);
+	PointItem* right = new PointItem(this, PointItem::RightSide);
+	PointItem* bottom = new PointItem(this, PointItem::BottomSide);
 	m_points.append({ left,top,right,bottom });
 	updatePointList();
 }
@@ -52,25 +62,59 @@ void CircleGraphicsItem::onNewHoveredPoint(QPointF point)
 
 void CircleGraphicsItem::mouseMoveEvent(QGraphicsSceneMouseEvent* event)
 {
-	MyGraphicsItem::mouseMoveEvent(event);
+	auto parent = dynamic_cast<MyGraphicsItem*>(parentItem());
+	if (!parent) {
+		MyGraphicsItem::mouseMoveEvent(event);
+	}
+	else if (parent->rect().width() < this->rect().width() &&
+		pressedOnOuterItem) {
+		parentItem()->moveBy(event->scenePos().x() - event->lastScenePos().x(), event->scenePos().y() - event->lastScenePos().y());
+	}
+	else if (parent->rect().width() > this->rect().width()) {
+	}
+
+
 }
 
 void CircleGraphicsItem::mousePressEvent(QGraphicsSceneMouseEvent* event)
 {
+	auto parent = dynamic_cast<MyGraphicsItem*>(parentItem());
+	if (parent)
+		pressedOnOuterItem = !parent->contains(parent->mapFromScene(event->scenePos()));
 	MyGraphicsItem::mousePressEvent(event);
 }
 
 void CircleGraphicsItem::mouseReleaseEvent(QGraphicsSceneMouseEvent* event)
 {
-	MyGraphicsItem::mouseReleaseEvent(event);
+	auto pixmapItem = dynamic_cast<MyGraphicsScene*>(scene())->pixmapItem();
+	if (!pixmapItem) return;
+
+	if (!parentItem()) {
+		QPainterPath paths = this->shape();
+		QPainterPath pixmapPaths = pixmapItem->shape();
+		paths.translate(pixmapItem->mapFromScene(this->pos()));
+		QPainterPath intersectedPaths = paths.intersected(pixmapPaths);
+		ImageProcessManager::getInstance().processArea(intersectedPaths);
+	}
+	else {
+		QGraphicsSceneMouseEvent* manualEvent = new QGraphicsSceneMouseEvent(QEvent::GraphicsSceneMouseRelease);
+		scene()->sendEvent(parentItem(), manualEvent);
+	}
+	QGraphicsItem::mouseReleaseEvent(event);
 }
 
 void CircleGraphicsItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget)
 {
-	qDebug() << (void*)this;
 	if (!enablePainting) return;
-	painter->setPen(Qt::red);
+	MyGraphicsItem::paint(painter, option, widget);
 	painter->drawEllipse(m_rect);
+}
+
+QPainterPath CircleGraphicsItem::shape() const
+{
+	QPainterPath path;
+	path.addEllipse(boundingRect());
+	return path;
 }
 
 void CircleGraphicsItem::pointsDetermineCircle()
@@ -101,6 +145,6 @@ void CircleGraphicsItem::pointsDetermineCircle()
 	radius = hypot(x1 - x0, y1 - y0);
 
 	center = { x0,y0 };
-	m_rect = { 0,0,radius*2,radius*2 };
+	m_rect = { 0,0,radius * 2,radius * 2 };
 	setPos(QPointF{ x0,y0 } - QPointF{ radius,radius });
 }

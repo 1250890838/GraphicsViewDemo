@@ -3,6 +3,7 @@
 
 #include <QComboBox>
 #include <QPushButton>
+#include <QSlider>
 
 #include "MyGraphicsScene.h"
 #include "MyGraphicsView.h"
@@ -21,6 +22,10 @@ private:
     QPushButton* m_clearButton;
     MyGraphicsScene* m_scene;
     MyGraphicsView* m_view;
-    QGraphicsItem* m_currItem;
+    QPushButton* m_binaryButton;
+    QPushButton* m_binaryInvertedButton;
+    QPushButton* m_thresholdTruncatedButton;
+    QPushButton* m_thresholdToZeroButton;
+    QPushButton* m_thresholdToZeroInvertedButton;
+    QSlider* m_slider;
 };
-
