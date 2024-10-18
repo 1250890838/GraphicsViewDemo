@@ -7,7 +7,8 @@
 
 MyGraphicsScene::MyGraphicsScene(const QRectF& sceneRect, QObject* parent)
 	:QGraphicsScene(sceneRect, parent),
-	m_state(None)
+	m_state(None),
+	m_pixmapItem(nullptr)
 {
 }
 

@@ -62,32 +62,21 @@ void CircleGraphicsItem::onNewHoveredPoint(QPointF point)
 
 void CircleGraphicsItem::mouseMoveEvent(QGraphicsSceneMouseEvent* event)
 {
-	auto parent = dynamic_cast<MyGraphicsItem*>(parentItem());
-	if (!parent) {
-		MyGraphicsItem::mouseMoveEvent(event);
-	}
-	else if (parent->rect().width() < this->rect().width() &&
-		pressedOnOuterItem) {
-		parentItem()->moveBy(event->scenePos().x() - event->lastScenePos().x(), event->scenePos().y() - event->lastScenePos().y());
-	}
-	else if (parent->rect().width() > this->rect().width()) {
-	}
-
-
+	MyGraphicsItem::mouseMoveEvent(event);
 }
 
 void CircleGraphicsItem::mousePressEvent(QGraphicsSceneMouseEvent* event)
 {
-	auto parent = dynamic_cast<MyGraphicsItem*>(parentItem());
-	if (parent)
-		pressedOnOuterItem = !parent->contains(parent->mapFromScene(event->scenePos()));
 	MyGraphicsItem::mousePressEvent(event);
 }
 
 void CircleGraphicsItem::mouseReleaseEvent(QGraphicsSceneMouseEvent* event)
 {
 	auto pixmapItem = dynamic_cast<MyGraphicsScene*>(scene())->pixmapItem();
-	if (!pixmapItem) return;
+	if (!pixmapItem) {
+		QGraphicsItem::mouseReleaseEvent(event);
+		return;
+	}
 
 	if (!parentItem()) {
 		QPainterPath paths = this->shape();
@@ -112,8 +101,12 @@ void CircleGraphicsItem::paint(QPainter* painter, const QStyleOptionGraphicsItem
 
 QPainterPath CircleGraphicsItem::shape() const
 {
+	auto pi = dynamic_cast<MyGraphicsItem*>(parentItem());
 	QPainterPath path;
-	path.addEllipse(boundingRect());
+	if (!pi) {
+		path.addEllipse(rect());
+		return path;
+	}
 	return path;
 }
 

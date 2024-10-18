@@ -17,6 +17,8 @@ protected:
     virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent* event) override;
     virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = 0) override;
     virtual QPainterPath shape() const override;
+    virtual QRectF boundingRect() const override;
+
 private:
     CircleGraphicsItem* m_outerItem;
 signals:

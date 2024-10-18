@@ -59,7 +59,10 @@ void MyGraphicsItem::clear()
 void MyGraphicsItem::mouseReleaseEvent(QGraphicsSceneMouseEvent* event)
 {
 	auto pixmapItem = dynamic_cast<MyGraphicsScene*>(scene())->pixmapItem();
-	if (!pixmapItem) return;
+	if (!pixmapItem) {
+		QGraphicsItem::mouseReleaseEvent(event);
+		return;
+	}
 
 	QPainterPath paths = this->shape();
 	QTransform trans = transform();

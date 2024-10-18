@@ -110,7 +110,6 @@ void RingGraphicsItem::onNewHoveredPoint(QPointF point) {
 		QPointF centerPoint = mapToScene(rect().center());
 		qreal outerItemRadius = sqrt(pow(hoverPoint.x() - centerPoint.x(), 2) + pow(hoverPoint.y() - centerPoint.y(), 2));
 		qreal innerItemRadius = rect().width() / 2;
-		qDebug() << innerItemRadius - outerItemRadius;
 		m_outerItem->setRect({ 0,0,outerItemRadius * 2,outerItemRadius * 2 });
 		m_outerItem->setPos(QPointF{ innerItemRadius - outerItemRadius , innerItemRadius - outerItemRadius });
 	}
@@ -123,13 +122,17 @@ void RingGraphicsItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* 
 
 QPainterPath RingGraphicsItem::shape() const
 {
-	QPainterPath result;
-	if (this->rect().width() > m_outerItem->rect().width()) {
-		QPainterPath path;
-		path.addEllipse(this->rect());
-		QPainterPath path2;
-		path2.addEllipse(m_outerItem->rect());
-		path2.translate(m_outerItem->pos());
-		return path.subtracted(path2);
+	QPainterPath path, path2;
+	path.addEllipse(this->rect());
+	path2.addEllipse(m_outerItem->rect());
+	path2 = mapFromItem(m_outerItem, path2);
+	if (this->rect().width() == m_outerItem->rect().width()) {
+		return path;
 	}
+	return rect().width() > m_outerItem->rect().width() ? path.subtracted(path2) : path2.subtracted(path);
+}
+
+QRectF RingGraphicsItem::boundingRect() const
+{
+	return this->rect().width() > m_outerItem->rect().width() ? this->rect() : m_outerItem->rect();
 }

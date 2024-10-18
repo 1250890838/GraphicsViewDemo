@@ -45,7 +45,10 @@ MainWindow::MainWindow() :
 	connect(m_addImageButton, &QPushButton::clicked, this, &MainWindow::onAddImage);
 	m_clearButton = new QPushButton("clear");
 	m_clearButton->setFont(font);
-	connect(m_clearButton, &QPushButton::clicked, m_scene, &QGraphicsScene::clear);
+	connect(m_clearButton, &QPushButton::clicked, [this] {
+		m_scene->setPixmapItem(nullptr);
+		m_scene->clear();
+		});
 
 	QVBoxLayout* vLayout = new QVBoxLayout;
 	m_addImageButton->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);

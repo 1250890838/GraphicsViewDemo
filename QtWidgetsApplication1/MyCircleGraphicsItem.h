@@ -20,7 +20,6 @@ protected:
     virtual QPainterPath shape() const override;
 public:
     bool enablePainting;
-    bool pressedOnOuterItem;
 signals:
     void changeSceneToGetHoveredPoint();
 };
