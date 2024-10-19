@@ -21,7 +21,4 @@ protected:
 
 private:
     CircleGraphicsItem* m_outerItem;
-signals:
-    void changeSceneToGetRingLeftPressAndHoverPoint();
-    void changeSceneToGetRingRightPressAndHoverPoint();
 };

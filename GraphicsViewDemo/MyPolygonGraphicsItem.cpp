@@ -13,10 +13,13 @@ PolygonGraphicsItem::PolygonGraphicsItem(QGraphicsItem* parent) :
 
 void PolygonGraphicsItem::onNewLeftPressedPoint(QPointF point)
 {
+	MyGraphicsScene* myScene = dynamic_cast<MyGraphicsScene*>(scene());
 	PointItem* item = new PointItem(nullptr, PointItem::Paint);
 	item->setPos(point);
-	scene()->addItem(item);
+	myScene->addItem(item);
 	appendPoint(item);
+	if (pointsCount() >= 3)
+		myScene->setState(MyGraphicsScene::ForLeftPress | MyGraphicsScene::ForHover | MyGraphicsScene::ForRightPress);
 
 	m_hoveredItem->setPos(point);
 	m_hoveredItem->setVisible(true);

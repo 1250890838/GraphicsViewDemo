@@ -30,21 +30,22 @@ void RingGraphicsItem::mouseReleaseEvent(QGraphicsSceneMouseEvent* event)
 }
 
 void RingGraphicsItem::onNewLeftPressedPoint(QPointF point) {
+	MyGraphicsScene* myScene = dynamic_cast<MyGraphicsScene*>(scene());
 	if (m_points.count() < 2) {
 		PointItem* item = new PointItem(nullptr, PointItem::Paint);
 		item->setPos(point);
-		scene()->addItem(item);
+		myScene->addItem(item);
 		m_points.append(item);
 	}
 	if (m_points.count() == 2)
-		emit changeSceneToGetRingLeftPressAndHoverPoint();
+		myScene->setState(MyGraphicsScene::ForLeftPress | MyGraphicsScene::ForHover);
 	else if (m_points.count() == 3) {
 		m_points[2]->setPos(point);
 		pointsDetermineCircle();
-		emit changeSceneToGetRingRightPressAndHoverPoint();
+		myScene->setState(MyGraphicsScene::ForRightPress | MyGraphicsScene::ForHover);
 		PointItem* item = new PointItem(nullptr, PointItem::Paint);
 		item->setPos(point);
-		scene()->addItem(item);
+		myScene->addItem(item);
 		m_outerItem->appendPoint(item);
 		m_outerItem->enablePainting = true;
 	}
@@ -53,8 +54,6 @@ void RingGraphicsItem::onNewLeftPressedPoint(QPointF point) {
 void RingGraphicsItem::onNewRightPressedPoint(QPointF point) {
 
 	// the paint is finished,don't receive signal from scene and send signal to scene.
-	disconnect(this, &RingGraphicsItem::changeSceneToGetRingLeftPressAndHoverPoint, dynamic_cast<MyGraphicsScene*>(scene()), &MyGraphicsScene::onChangeSceneToGetRingLeftPressAndHoverPoint);
-	disconnect(this, &RingGraphicsItem::changeSceneToGetRingRightPressAndHoverPoint, dynamic_cast<MyGraphicsScene*>(scene()), &MyGraphicsScene::onChangeSceneToGetRingRightPressAndHoverPoint);
 	disconnect(dynamic_cast<MyGraphicsScene*>(scene()), &MyGraphicsScene::newLeftPressedPoint, this, &RingGraphicsItem::onNewLeftPressedPoint);
 	disconnect(dynamic_cast<MyGraphicsScene*>(scene()), &MyGraphicsScene::newHoveredPoint, this, &RingGraphicsItem::onNewHoveredPoint);
 	disconnect(dynamic_cast<MyGraphicsScene*>(scene()), &MyGraphicsScene::newRightPressedPoint, this, &RingGraphicsItem::onNewRightPressedPoint);
@@ -134,5 +133,9 @@ QPainterPath RingGraphicsItem::shape() const
 
 QRectF RingGraphicsItem::boundingRect() const
 {
-	return this->rect().width() > m_outerItem->rect().width() ? this->rect() : m_outerItem->rect();
+	// rect returned from m_outerItem->rect() can't directly used,we need to convert it  to this coordinate System
+	auto outerItemRect = m_outerItem->rect();
+	outerItemRect.setX(outerItemRect.x() + m_outerItem->pos().x());
+	outerItemRect.setY(outerItemRect.y() + m_outerItem->pos().y());
+	return this->rect().width() > m_outerItem->rect().width() ? this->rect() : outerItemRect;
 }

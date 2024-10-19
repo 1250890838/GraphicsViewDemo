@@ -14,22 +14,15 @@ class MyGraphicsScene :
 public:
     enum State {
         None,
-        ForCirclePress,
-        ForCircleHover,
-        ForRingLeftPress,
-        ForRingLeftPressAndHover,
-        ForRingRightPressAndHover,
-        ForPolygonLeftRightHover
+        ForLeftPress = 0x1,
+        ForHover = 0x2,
+        ForRightPress = 0x4
     };
 public:
     MyGraphicsScene(const QRectF& sceneRect, QObject* parent = nullptr);
-    void setState(State state) { m_state = state; }
+    void setState(int state) { m_state = state; }
     QGraphicsItem* pixmapItem() { return m_pixmapItem; }
     void setPixmapItem(QGraphicsItem* item) { m_pixmapItem = item; }
-public slots:
-    void onChangeSceneToGetCircleHoveredPoint();
-    void onChangeSceneToGetRingLeftPressAndHoverPoint();
-    void onChangeSceneToGetRingRightPressAndHoverPoint();
 signals:
     void newLeftPressedPoint(QPointF point);
     void newHoveredPoint(QPointF point);
@@ -41,6 +34,6 @@ protected:
     virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent* mouseEvent);
     virtual void wheelEvent(QGraphicsSceneWheelEvent* wheelEvent);
 private:
-    State m_state;
+    int m_state;
     QGraphicsItem* m_pixmapItem;
 };

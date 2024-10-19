@@ -12,24 +12,9 @@ MyGraphicsScene::MyGraphicsScene(const QRectF& sceneRect, QObject* parent)
 {
 }
 
-void MyGraphicsScene::onChangeSceneToGetRingLeftPressAndHoverPoint() {
-	m_state = ForRingLeftPressAndHover;
-}
-
-void MyGraphicsScene::onChangeSceneToGetRingRightPressAndHoverPoint() {
-	m_state = ForRingRightPressAndHover;
-}
-
-void MyGraphicsScene::onChangeSceneToGetCircleHoveredPoint() {
-	m_state = ForCircleHover;
-}
-
 void MyGraphicsScene::mouseMoveEvent(QGraphicsSceneMouseEvent* mouseEvent)
 {
-	if (m_state == ForCircleHover ||
-		m_state == ForRingLeftPressAndHover ||
-		m_state == ForRingRightPressAndHover ||
-		m_state == ForPolygonLeftRightHover) {
+	if (m_state & ForHover) {
 		emit newHoveredPoint(mouseEvent->scenePos());
 	}
 	QGraphicsScene::mouseMoveEvent(mouseEvent);
@@ -38,16 +23,11 @@ void MyGraphicsScene::mouseMoveEvent(QGraphicsSceneMouseEvent* mouseEvent)
 void MyGraphicsScene::mousePressEvent(QGraphicsSceneMouseEvent* mouseEvent)
 {
 	if (mouseEvent->buttons() == Qt::LeftButton &&
-		(m_state == ForCirclePress ||
-			m_state == ForRingLeftPress ||
-			m_state == ForRingLeftPressAndHover ||
-			m_state == ForPolygonLeftRightHover)) {
+		(m_state & ForLeftPress)) {
 		emit newLeftPressedPoint(mouseEvent->scenePos());
 	}
 	else if (mouseEvent->buttons() == Qt::RightButton &&
-		(m_state == ForCircleHover ||
-			m_state == ForRingRightPressAndHover ||
-			m_state == ForPolygonLeftRightHover))
+		(m_state & ForRightPress))
 	{
 		m_state = None;
 		emit newRightPressedPoint(mouseEvent->scenePos());

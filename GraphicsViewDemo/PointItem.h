@@ -36,7 +36,7 @@ protected:
     QRectF boundingRect() const override;
     void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = 0) override;
 private:
-    void moveLogic(QPointF lastPos, QPointF pos);
+    void moveLogic(QPointF pos);
 private:
     QRectF m_rect;
     Edge m_edge;

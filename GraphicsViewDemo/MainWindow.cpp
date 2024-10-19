@@ -40,48 +40,48 @@ MainWindow::MainWindow() :
 	m_combobox->setFont(font);
 
 	QHBoxLayout* hLayout = new QHBoxLayout;
-	m_addImageButton = new QPushButton("add image");
+	m_addImageButton = new QPushButton("Add image");
 	m_addImageButton->setFont(font);
 	connect(m_addImageButton, &QPushButton::clicked, this, &MainWindow::onAddImage);
-	m_clearButton = new QPushButton("clear");
+	m_clearButton = new QPushButton("Clear");
 	m_clearButton->setFont(font);
 	connect(m_clearButton, &QPushButton::clicked, [this] {
 		m_scene->setPixmapItem(nullptr);
 		m_scene->clear();
 		});
 
-	QVBoxLayout* vLayout = new QVBoxLayout;
+	QVBoxLayout* vLeftLayout = new QVBoxLayout;
 	m_addImageButton->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-	vLayout->addWidget(m_addImageButton);
+	vLeftLayout->addWidget(m_addImageButton);
 	m_combobox->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-	vLayout->addWidget(m_combobox);
+	vLeftLayout->addWidget(m_combobox);
 	m_clearButton->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-	vLayout->addWidget(m_clearButton);
+	vLeftLayout->addWidget(m_clearButton);
 
-	QWidget* vLayoutWidget = new QWidget(this);
-	vLayoutWidget->setLayout(vLayout);
+	QWidget* leftWidget = new QWidget(this);
+	leftWidget->setLayout(vLeftLayout);
 
-	m_binaryButton = new QPushButton("binary");
+	m_binaryButton = new QPushButton("Binary");
 	connect(m_binaryButton, &QPushButton::clicked,
 		[] {
 			ImageProcessManager::getInstance().setThresholdType(THRESH_BINARY);
 		});
-	m_binaryInvertedButton = new QPushButton("binary inverted");
+	m_binaryInvertedButton = new QPushButton("Binary inverted");
 	connect(m_binaryInvertedButton, &QPushButton::clicked,
 		[] {
 			ImageProcessManager::getInstance().setThresholdType(THRESH_BINARY_INV);
 		});
-	m_thresholdTruncatedButton = new QPushButton("truncate");
+	m_thresholdTruncatedButton = new QPushButton("Truncate");
 	connect(m_thresholdTruncatedButton, &QPushButton::clicked,
 		[] {
 			ImageProcessManager::getInstance().setThresholdType(THRESH_TRUNC);
 		});
-	m_thresholdToZeroButton = new QPushButton("threshold to zero");
+	m_thresholdToZeroButton = new QPushButton("Threshold to zero");
 	connect(m_thresholdToZeroButton, &QPushButton::clicked,
 		[] {
 			ImageProcessManager::getInstance().setThresholdType(THRESH_TOZERO);
 		});
-	m_thresholdToZeroInvertedButton = new QPushButton("threshold to zero inverted");
+	m_thresholdToZeroInvertedButton = new QPushButton("Threshold to zero inverted");
 	connect(m_thresholdToZeroInvertedButton, &QPushButton::clicked,
 		[] {
 			ImageProcessManager::getInstance().setThresholdType(THRESH_TOZERO_INV);
@@ -91,10 +91,8 @@ MainWindow::MainWindow() :
 	connect(m_slider, &QSlider::valueChanged, [](int value) {
 		ImageProcessManager::getInstance().setThresh(value);
 		});
-
-	auto path = qApp->applicationDirPath();
 	m_slider->setOrientation(Qt::Horizontal);
-
+	
 	QVBoxLayout* vRightLayout = new QVBoxLayout;
 	m_binaryButton->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 	vRightLayout->addWidget(m_binaryButton, 1);
@@ -109,13 +107,13 @@ MainWindow::MainWindow() :
 	m_slider->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 	vRightLayout->addWidget(m_slider, 4);
 
-	QWidget* gridWidget = new QWidget;
-	gridWidget->setLayout(vRightLayout);
+	QWidget* rightWidget = new QWidget;
+	rightWidget->setLayout(vRightLayout);
 
 	QSplitter* splitter = new QSplitter(this);
-	splitter->addWidget(vLayoutWidget);
+	splitter->addWidget(leftWidget);
 	splitter->addWidget(m_view);
-	splitter->addWidget(gridWidget);
+	splitter->addWidget(rightWidget);
 
 	this->setCentralWidget(splitter);
 
@@ -153,8 +151,7 @@ void MainWindow::onShapeSelectionChanged(int index) {
 		break;
 	case 2:
 		item = new CircleGraphicsItem(nullptr);
-		m_scene->setState(MyGraphicsScene::ForCirclePress);
-		connect(dynamic_cast<CircleGraphicsItem*>(item), &CircleGraphicsItem::changeSceneToGetHoveredPoint, m_scene, &MyGraphicsScene::onChangeSceneToGetCircleHoveredPoint);
+		m_scene->setState(MyGraphicsScene::ForLeftPress);
 		connect(m_scene, &MyGraphicsScene::newLeftPressedPoint, dynamic_cast<CircleGraphicsItem*>(item), &CircleGraphicsItem::onNewLeftPressedPoint);
 		connect(m_scene, &MyGraphicsScene::newHoveredPoint, dynamic_cast<CircleGraphicsItem*>(item), &CircleGraphicsItem::onNewHoveredPoint);
 		connect(m_scene, &MyGraphicsScene::newRightPressedPoint, dynamic_cast<CircleGraphicsItem*>(item), &CircleGraphicsItem::onNewRightPressedPoint);
@@ -166,9 +163,7 @@ void MainWindow::onShapeSelectionChanged(int index) {
 	case 4:
 	{
 		item = new RingGraphicsItem(nullptr);
-		m_scene->setState(MyGraphicsScene::ForRingLeftPress);
-		connect(dynamic_cast<RingGraphicsItem*>(item), &RingGraphicsItem::changeSceneToGetRingLeftPressAndHoverPoint, m_scene, &MyGraphicsScene::onChangeSceneToGetRingLeftPressAndHoverPoint);
-		connect(dynamic_cast<RingGraphicsItem*>(item), &RingGraphicsItem::changeSceneToGetRingRightPressAndHoverPoint, m_scene, &MyGraphicsScene::onChangeSceneToGetRingRightPressAndHoverPoint);
+		m_scene->setState(MyGraphicsScene::ForLeftPress);
 		connect(m_scene, &MyGraphicsScene::newLeftPressedPoint, dynamic_cast<RingGraphicsItem*>(item), &RingGraphicsItem::onNewLeftPressedPoint);
 		connect(m_scene, &MyGraphicsScene::newHoveredPoint, dynamic_cast<RingGraphicsItem*>(item), &RingGraphicsItem::onNewHoveredPoint);
 		connect(m_scene, &MyGraphicsScene::newRightPressedPoint, dynamic_cast<RingGraphicsItem*>(item), &RingGraphicsItem::onNewRightPressedPoint);
@@ -181,7 +176,7 @@ void MainWindow::onShapeSelectionChanged(int index) {
 	case 6:
 	{
 		item = new PolygonGraphicsItem(nullptr);
-		m_scene->setState(MyGraphicsScene::ForPolygonLeftRightHover);
+		m_scene->setState(MyGraphicsScene::ForLeftPress | MyGraphicsScene::ForHover);
 		connect(m_scene, &MyGraphicsScene::newLeftPressedPoint, dynamic_cast<PolygonGraphicsItem*>(item), &PolygonGraphicsItem::onNewLeftPressedPoint);
 		connect(m_scene, &MyGraphicsScene::newHoveredPoint, dynamic_cast<PolygonGraphicsItem*>(item), &PolygonGraphicsItem::onNewHoveredPoint);
 		connect(m_scene, &MyGraphicsScene::newRightPressedPoint, dynamic_cast<PolygonGraphicsItem*>(item), &PolygonGraphicsItem::onNewRightPressedPoint);

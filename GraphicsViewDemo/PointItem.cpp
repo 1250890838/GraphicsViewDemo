@@ -113,17 +113,18 @@ void PointItem::hoverMoveEvent(QGraphicsSceneHoverEvent* event)
 
 void PointItem::mouseMoveEvent(QGraphicsSceneMouseEvent* event)
 {
-    moveLogic(event->lastScenePos(), event->scenePos());
+    moveLogic( event->scenePos());
     QAbstractGraphicsShapeItem::mouseMoveEvent(event);
 }
 
-void PointItem::moveLogic(QPointF lastPos, QPointF pos)
+void PointItem::moveLogic(QPointF pos)
 {
     auto parentItem = dynamic_cast<MyGraphicsItem*>(this->parentItem());
     if (parentItem == nullptr || m_edge == Paint)
         return;
 
     QRectF rect = parentItem->rect();
+    auto p = rect.center();
     pos = parentItem->mapFromScene(pos);
     switch (m_edge)
     {
@@ -142,7 +143,7 @@ void PointItem::moveLogic(QPointF lastPos, QPointF pos)
     case PointItem::Middle:
     {
         QPointF tempPos = parentItem->mapToScene(pos);
-        parentItem->moveBy(tempPos.x() - lastPos.x(), tempPos.y() - lastPos.y());
+        parentItem->setPos(tempPos - QPointF{ rect.center() });
     }
     break;
     case PointItem::Bottom:
@@ -205,6 +206,7 @@ void PointItem::moveLogic(QPointF lastPos, QPointF pos)
     {
         this->setPos(pos);
     }
+    break;
     default:
         break;
     }

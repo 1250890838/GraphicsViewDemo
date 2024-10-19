@@ -19,14 +19,14 @@ void CircleGraphicsItem::onNewLeftPressedPoint(QPointF point) {
 	item->setPos(point);
 	scene()->addItem(item);
 	m_points.append(item);
-	if (m_points.count() == 2)
-		changeSceneToGetHoveredPoint();
+	if (m_points.count() == 2) {
+		dynamic_cast<MyGraphicsScene*>(scene())->setState(MyGraphicsScene::ForHover | MyGraphicsScene::ForRightPress);
+	}
 }
 
 void CircleGraphicsItem::onNewRightPressedPoint(QPointF point)
 {
 	// the paint is finished,don't receive signal from scene and send signal to scene.
-	disconnect(this, &CircleGraphicsItem::changeSceneToGetHoveredPoint, dynamic_cast<MyGraphicsScene*>(scene()), &MyGraphicsScene::onChangeSceneToGetCircleHoveredPoint);
 	disconnect(dynamic_cast<MyGraphicsScene*>(scene()), &MyGraphicsScene::newLeftPressedPoint, this, &CircleGraphicsItem::onNewLeftPressedPoint);
 	disconnect(dynamic_cast<MyGraphicsScene*>(scene()), &MyGraphicsScene::newHoveredPoint, this, &CircleGraphicsItem::onNewHoveredPoint);
 	disconnect(dynamic_cast<MyGraphicsScene*>(scene()), &MyGraphicsScene::newRightPressedPoint, this, &CircleGraphicsItem::onNewRightPressedPoint);
