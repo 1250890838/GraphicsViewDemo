@@ -6,9 +6,9 @@ class PolygonGraphicsItem :
 public:
     PolygonGraphicsItem(QGraphicsItem*);
 public slots:
-    void onNewLeftPressedPoint(QPointF point);
-    void onNewRightPressedPoint(QPointF point);
-    void onNewHoveredPoint(QPointF point);
+    void onNewLeftPressedPoint(QPointF point) override;
+    void onNewRightPressedPoint(QPointF point) override;
+    void onNewHoveredPoint(QPointF point) override;
 protected:
     virtual void mouseMoveEvent(QGraphicsSceneMouseEvent* event) override;
     virtual void mousePressEvent(QGraphicsSceneMouseEvent* event) override;

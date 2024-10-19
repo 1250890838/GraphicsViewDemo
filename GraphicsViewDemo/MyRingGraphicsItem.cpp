@@ -54,9 +54,7 @@ void RingGraphicsItem::onNewLeftPressedPoint(QPointF point) {
 void RingGraphicsItem::onNewRightPressedPoint(QPointF point) {
 
 	// the paint is finished,don't receive signal from scene and send signal to scene.
-	disconnect(dynamic_cast<MyGraphicsScene*>(scene()), &MyGraphicsScene::newLeftPressedPoint, this, &RingGraphicsItem::onNewLeftPressedPoint);
-	disconnect(dynamic_cast<MyGraphicsScene*>(scene()), &MyGraphicsScene::newHoveredPoint, this, &RingGraphicsItem::onNewHoveredPoint);
-	disconnect(dynamic_cast<MyGraphicsScene*>(scene()), &MyGraphicsScene::newRightPressedPoint, this, &RingGraphicsItem::onNewRightPressedPoint);
+	MyGraphicsItem::onNewRightPressedPoint(point);
 
 	QPointF hoverPoint = point;
 	QPointF centerPoint = mapToScene(rect().center());

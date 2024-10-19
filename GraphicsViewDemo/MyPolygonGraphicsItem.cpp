@@ -27,9 +27,7 @@ void PolygonGraphicsItem::onNewLeftPressedPoint(QPointF point)
 
 void PolygonGraphicsItem::onNewRightPressedPoint(QPointF point)
 {
-	disconnect(dynamic_cast<MyGraphicsScene*>(scene()), &MyGraphicsScene::newLeftPressedPoint, this, &PolygonGraphicsItem::onNewLeftPressedPoint);
-	disconnect(dynamic_cast<MyGraphicsScene*>(scene()), &MyGraphicsScene::newHoveredPoint, this, &PolygonGraphicsItem::onNewHoveredPoint);
-	disconnect(dynamic_cast<MyGraphicsScene*>(scene()), &MyGraphicsScene::newRightPressedPoint, this, &PolygonGraphicsItem::onNewRightPressedPoint);
+	MyGraphicsItem::onNewRightPressedPoint(point);
 
 	scene()->removeItem(m_hoveredItem);
 	delete m_hoveredItem;

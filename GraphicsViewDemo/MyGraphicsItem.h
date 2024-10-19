@@ -2,7 +2,9 @@
 #pragma once
 #include <QGraphicsitem.h>
 #include <QList>
+
 #include "PointItem.h"
+#include "MyGraphicsScene.h"
 
 class MyGraphicsItem :
     public QObject, public QAbstractGraphicsShapeItem
@@ -25,6 +27,14 @@ public:
     PointItem* pointAt(int i);
     int pointsCount();
     void clear();
+public slots:
+    virtual void onNewLeftPressedPoint(QPointF point) {}
+    virtual void onNewRightPressedPoint(QPointF point) {
+        disconnect(dynamic_cast<MyGraphicsScene*>(scene()), &MyGraphicsScene::newLeftPressedPoint, this, &MyGraphicsItem::onNewLeftPressedPoint);
+        disconnect(dynamic_cast<MyGraphicsScene*>(scene()), &MyGraphicsScene::newHoveredPoint, this, &MyGraphicsItem::onNewHoveredPoint);
+        disconnect(dynamic_cast<MyGraphicsScene*>(scene()), &MyGraphicsScene::newRightPressedPoint, this, &MyGraphicsItem::onNewRightPressedPoint);
+    }
+    virtual void onNewHoveredPoint(QPointF point){}
 protected:
     virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent* event) override;
     virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = 0) override;

@@ -26,10 +26,7 @@ void CircleGraphicsItem::onNewLeftPressedPoint(QPointF point) {
 
 void CircleGraphicsItem::onNewRightPressedPoint(QPointF point)
 {
-	// the paint is finished,don't receive signal from scene and send signal to scene.
-	disconnect(dynamic_cast<MyGraphicsScene*>(scene()), &MyGraphicsScene::newLeftPressedPoint, this, &CircleGraphicsItem::onNewLeftPressedPoint);
-	disconnect(dynamic_cast<MyGraphicsScene*>(scene()), &MyGraphicsScene::newHoveredPoint, this, &CircleGraphicsItem::onNewHoveredPoint);
-	disconnect(dynamic_cast<MyGraphicsScene*>(scene()), &MyGraphicsScene::newRightPressedPoint, this, &CircleGraphicsItem::onNewRightPressedPoint);
+	MyGraphicsItem::onNewRightPressedPoint(point);
 
 	m_points[2]->setPos(point);
 

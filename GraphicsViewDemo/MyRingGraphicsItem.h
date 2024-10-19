@@ -8,9 +8,9 @@ class RingGraphicsItem :
 public:
     RingGraphicsItem(QGraphicsItem* parent);
 public slots:
-    void onNewLeftPressedPoint(QPointF point);
-    void onNewRightPressedPoint(QPointF point);
-    void onNewHoveredPoint(QPointF point);
+    virtual void onNewLeftPressedPoint(QPointF point) override;
+    virtual void onNewRightPressedPoint(QPointF point) override;
+    virtual void onNewHoveredPoint(QPointF point) override;
 protected:
     virtual void mouseMoveEvent(QGraphicsSceneMouseEvent* event) override;
     virtual void mousePressEvent(QGraphicsSceneMouseEvent* event) override;

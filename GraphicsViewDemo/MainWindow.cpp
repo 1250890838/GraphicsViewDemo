@@ -130,7 +130,9 @@ void MainWindow::onAddImage() {
 	auto item = m_scene->addPixmap(QPixmap(fileName));
 	m_scene->setPixmapItem(item);
 	connect(&ImageProcessManager::getInstance(), &ImageProcessManager::newImage,
-		this, [this](QPixmap pixmap) { dynamic_cast<QGraphicsPixmapItem*>(m_scene->pixmapItem())->setPixmap(pixmap); });
+		[this](QPixmap pixmap) { 
+			dynamic_cast<QGraphicsPixmapItem*>(m_scene->pixmapItem())->setPixmap(pixmap); }
+	);
 	m_scene->pixmapItem()->setFlags(QGraphicsItem::ItemIsMovable
 		| QGraphicsItem::ItemIsFocusable
 		| QGraphicsItem::ItemIsSelectable);
@@ -152,40 +154,30 @@ void MainWindow::onShapeSelectionChanged(int index) {
 	case 2:
 		item = new CircleGraphicsItem(nullptr);
 		m_scene->setState(MyGraphicsScene::ForLeftPress);
-		connect(m_scene, &MyGraphicsScene::newLeftPressedPoint, dynamic_cast<CircleGraphicsItem*>(item), &CircleGraphicsItem::onNewLeftPressedPoint);
-		connect(m_scene, &MyGraphicsScene::newHoveredPoint, dynamic_cast<CircleGraphicsItem*>(item), &CircleGraphicsItem::onNewHoveredPoint);
-		connect(m_scene, &MyGraphicsScene::newRightPressedPoint, dynamic_cast<CircleGraphicsItem*>(item), &CircleGraphicsItem::onNewRightPressedPoint);
 		break;
 	case 3:
 		item = new OvalGraphicsItem(nullptr, 200, 120);
 		m_scene->setState(MyGraphicsScene::None);
 		break;
 	case 4:
-	{
 		item = new RingGraphicsItem(nullptr);
 		m_scene->setState(MyGraphicsScene::ForLeftPress);
-		connect(m_scene, &MyGraphicsScene::newLeftPressedPoint, dynamic_cast<RingGraphicsItem*>(item), &RingGraphicsItem::onNewLeftPressedPoint);
-		connect(m_scene, &MyGraphicsScene::newHoveredPoint, dynamic_cast<RingGraphicsItem*>(item), &RingGraphicsItem::onNewHoveredPoint);
-		connect(m_scene, &MyGraphicsScene::newRightPressedPoint, dynamic_cast<RingGraphicsItem*>(item), &RingGraphicsItem::onNewRightPressedPoint);
-	}
-	break;
+		break;
 	case 5:
 		//TODO: Arc Item
 		item = new MyTestPaintItem(nullptr, 300, 300);
 		break;
 	case 6:
-	{
 		item = new PolygonGraphicsItem(nullptr);
 		m_scene->setState(MyGraphicsScene::ForLeftPress | MyGraphicsScene::ForHover);
-		connect(m_scene, &MyGraphicsScene::newLeftPressedPoint, dynamic_cast<PolygonGraphicsItem*>(item), &PolygonGraphicsItem::onNewLeftPressedPoint);
-		connect(m_scene, &MyGraphicsScene::newHoveredPoint, dynamic_cast<PolygonGraphicsItem*>(item), &PolygonGraphicsItem::onNewHoveredPoint);
-		connect(m_scene, &MyGraphicsScene::newRightPressedPoint, dynamic_cast<PolygonGraphicsItem*>(item), &PolygonGraphicsItem::onNewRightPressedPoint);
-	}
-	break;
+		break;
 	default:
 		break;
 	}
 	if (item) {
+		connect(m_scene, &MyGraphicsScene::newLeftPressedPoint,item, &MyGraphicsItem::onNewLeftPressedPoint);
+		connect(m_scene, &MyGraphicsScene::newHoveredPoint, item, &MyGraphicsItem::onNewHoveredPoint);
+		connect(m_scene, &MyGraphicsScene::newRightPressedPoint, item, &MyGraphicsItem::onNewRightPressedPoint);
 		m_scene->addItem(item);
 	}
 }
