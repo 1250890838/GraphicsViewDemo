@@ -100,8 +100,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <QtRcc Include="QtWidgetsApplication1.qrc" />
-    <QtUic Include="QtWidgetsApplication1.ui" />
+    <QtRcc Include="qss.qrc" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ImageProcessManager.cpp" />

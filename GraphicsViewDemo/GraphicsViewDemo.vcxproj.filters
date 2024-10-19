@@ -1,0 +1,104 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="ImageProcessManager.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="MainWindow.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="MyCircleGraphicsItem.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="MyGraphicsItem.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="MyGraphicsScene.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="MyGraphicsView.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="MyOvalGraphicsItem.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="MyPolygonGraphicsItem.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="MyRectGraphicsItem.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="MyRingGraphicsItem.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="MyRotatedRectGraphicsItem.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="MyTestPaintItem.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="PointItem.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="MyGraphicsView.h">
+      <Filter>header</Filter>
+    </ClInclude>
+    <ClInclude Include="MyPolygonGraphicsItem.h">
+      <Filter>header</Filter>
+    </ClInclude>
+    <ClInclude Include="MyOvalGraphicsItem.h">
+      <Filter>header</Filter>
+    </ClInclude>
+    <ClInclude Include="MyRectGraphicsItem.h">
+      <Filter>header</Filter>
+    </ClInclude>
+    <ClInclude Include="MyRotatedRectGraphicsItem.h">
+      <Filter>header</Filter>
+    </ClInclude>
+    <ClInclude Include="MyTestPaintItem.h">
+      <Filter>header</Filter>
+    </ClInclude>
+    <ClInclude Include="PointItem.h">
+      <Filter>header</Filter>
+    </ClInclude>
+    <ClInclude Include="opencv_dependencies.h">
+      <Filter>header</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <QtMoc Include="ImageProcessManager.h">
+      <Filter>header</Filter>
+    </QtMoc>
+    <QtMoc Include="MyCircleGraphicsItem.h">
+      <Filter>header</Filter>
+    </QtMoc>
+    <QtMoc Include="MainWindow.h">
+      <Filter>header</Filter>
+    </QtMoc>
+    <QtMoc Include="MyGraphicsItem.h">
+      <Filter>header</Filter>
+    </QtMoc>
+    <QtMoc Include="MyGraphicsScene.h">
+      <Filter>header</Filter>
+    </QtMoc>
+    <QtMoc Include="MyRingGraphicsItem.h">
+      <Filter>header</Filter>
+    </QtMoc>
+  </ItemGroup>
+  <ItemGroup>
+    <QtRcc Include="qss.qrc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="source">
+      <UniqueIdentifier>{b382adf6-745a-41d6-b763-4d03866847b6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="header">
+      <UniqueIdentifier>{7ab2c2a0-2f0d-4a32-921b-b97875bf8290}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
