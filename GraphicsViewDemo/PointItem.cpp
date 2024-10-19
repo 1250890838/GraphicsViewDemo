@@ -125,6 +125,8 @@ void PointItem::moveLogic(QPointF pos)
 
     QRectF rect = parentItem->rect();
     auto p = rect.center();
+    qreal d = 0;
+
     pos = parentItem->mapFromScene(pos);
     switch (m_edge)
     {
@@ -141,11 +143,8 @@ void PointItem::moveLogic(QPointF pos)
         rect.setTop(pos.y());
         break;
     case PointItem::Middle:
-    {
-        QPointF tempPos = parentItem->mapToScene(pos);
-        parentItem->setPos(tempPos - QPointF{ rect.center() });
-    }
-    break;
+        parentItem->setPos(parentItem->mapToScene(pos) - QPointF{ rect.center() });
+        break;
     case PointItem::Bottom:
         rect.setBottom(pos.y());
         break;
@@ -167,46 +166,36 @@ void PointItem::moveLogic(QPointF pos)
     }
     break;
     case PointItem::LeftSide:
-    {
-        qreal d = pos.x() - rect.left();
+        d = pos.x() - rect.left();
         rect.setLeft(pos.x());
         rect.setTop(rect.top() + d);
         rect.setRight(rect.right() - d);
         rect.setBottom(rect.bottom() - d);
-    }
-    break;
+        break;
     case PointItem::TopSide:
-    {
-        qreal d = pos.y() - rect.top();
+        d = pos.y() - rect.top();
         rect.setLeft(rect.left() + d);
         rect.setTop(pos.y());
         rect.setRight(rect.right() - d);
         rect.setBottom(rect.bottom() - d);
-    }
-    break;
+        break;
     case PointItem::RightSide:
-    {
-        qreal d = pos.x() - rect.right();
+        d = pos.x() - rect.right();
         rect.setLeft(rect.left() - d);
         rect.setTop(rect.top() - d);
         rect.setRight(pos.x());
         rect.setBottom(rect.bottom() + d);
-    }
-    break;
+        break;
     case PointItem::BottomSide:
-    {
-        qreal d = pos.y() - rect.bottom();
+        d = pos.y() - rect.bottom();
         rect.setLeft(rect.left() - d);
         rect.setTop(rect.top() - d);
         rect.setRight(rect.right() + d);
         rect.setBottom(pos.y());
-    }
-    break;
+        break;
     case PointItem::Polygon:
-    {
         this->setPos(pos);
-    }
-    break;
+        break;
     default:
         break;
     }
