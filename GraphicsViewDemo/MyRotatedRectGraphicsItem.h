@@ -1,5 +1,6 @@
 #pragma once
 #include "MyRectGraphicsItem.h"
+
 class RotatedRectGraphicsItem :
     public RectGraphicsItem
 {

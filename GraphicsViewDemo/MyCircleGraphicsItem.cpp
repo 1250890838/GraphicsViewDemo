@@ -1,5 +1,4 @@
-﻿
-#include "MyCircleGraphicsItem.h"
+﻿#include "MyCircleGraphicsItem.h"
 
 #include <QGraphicsScene>
 #include <QPainter>
@@ -8,6 +7,7 @@
 
 #include "MyGraphicsScene.h"
 #include "ImageProcessManager.h"
+
 CircleGraphicsItem::CircleGraphicsItem(QGraphicsItem* parent) :
 	MyGraphicsItem(parent),
 	enablePainting(false)

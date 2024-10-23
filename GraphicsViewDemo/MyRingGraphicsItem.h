@@ -1,6 +1,6 @@
-
 #pragma once
 #include "MyCircleGraphicsItem.h"
+
 class RingGraphicsItem :
     public CircleGraphicsItem
 {

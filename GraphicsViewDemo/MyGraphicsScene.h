@@ -1,4 +1,3 @@
-
 #pragma once
 #include <qgraphicsscene.h>
 #include <QMouseEvent> 

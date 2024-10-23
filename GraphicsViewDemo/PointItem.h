@@ -1,5 +1,6 @@
 #pragma once
 #include <qgraphicsitem.h>
+
 class PointItem :
     public QAbstractGraphicsShapeItem
 {

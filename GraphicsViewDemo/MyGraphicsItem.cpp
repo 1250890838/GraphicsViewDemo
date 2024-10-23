@@ -1,4 +1,3 @@
-
 #include "MyGraphicsItem.h"
 
 #include <QGraphicsScene>

@@ -1,10 +1,10 @@
 #pragma once
-#include "opencv_dependencies.h"
-
 #include <QString>
 #include <QPixmap>
 #include <QPainterPath>
 #include <QObject>
+
+#include "opencv_dependencies.h"
 
 class ImageProcessManager : public QObject
 {

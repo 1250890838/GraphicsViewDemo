@@ -20,7 +20,6 @@
 #include "MyRingGraphicsItem.h"
 #include "MyPolygonGraphicsItem.h"
 #include "MyTestPaintItem.h"
-
 #include "ImageProcessManager.h"
 
 MainWindow::MainWindow() :

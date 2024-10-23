@@ -1,12 +1,13 @@
-
 #include "MyRingGraphicsItem.h"
-#include "MyGraphicsScene.h"
+
+#include <cmath>
 
 #include <QGraphicsScene>
 #include <QPair>
 #include <QPainter>
 #include <QGraphicsSceneMouseEvent>
-#include <cmath>
+
+#include "MyGraphicsScene.h"
 
 RingGraphicsItem::RingGraphicsItem(QGraphicsItem* parent)
 	:CircleGraphicsItem(parent),

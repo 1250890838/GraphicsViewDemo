@@ -1,4 +1,3 @@
-
 #include "MyRectGraphicsItem.h"
 
 #include <QPainter>

@@ -1,10 +1,8 @@
-
 #include "MyGraphicsView.h"
 
 #include <QPixmap>
 #include <QBrush>
 #include <QWheelEvent>
-#include <QDebug>
 
 MyGraphicsView::MyGraphicsView(QGraphicsScene* scene) :QGraphicsView(scene) {
 	setBackgroundBrush(QBrush(QColor(Qt::black)));

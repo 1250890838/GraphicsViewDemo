@@ -1,4 +1,3 @@
-
 #include <QGraphicsSceneMouseEvent>
 #include <QDebug>
 

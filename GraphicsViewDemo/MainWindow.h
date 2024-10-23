@@ -1,12 +1,12 @@
 #pragma once
-#include <qmainwindow.h>
-
+#include <QMainWindow>
 #include <QComboBox>
 #include <QPushButton>
 #include <QSlider>
 
 #include "MyGraphicsScene.h"
 #include "MyGraphicsView.h"
+
 class MainWindow :
     public QMainWindow
 {

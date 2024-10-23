@@ -1,5 +1,6 @@
 #pragma once
 #include "MyGraphicsItem.h"
+
 class PolygonGraphicsItem :
     public MyGraphicsItem
 {

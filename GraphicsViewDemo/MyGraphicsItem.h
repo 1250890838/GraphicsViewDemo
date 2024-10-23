@@ -1,4 +1,3 @@
-
 #pragma once
 #include <QGraphicsitem.h>
 #include <QList>

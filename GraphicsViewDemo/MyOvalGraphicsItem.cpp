@@ -1,4 +1,3 @@
-
 #include "MyOvalGraphicsItem.h"
 
 #include <QPainter>
