@@ -1,7 +1,8 @@
 #include "MyPolygonGraphicsItem.h"
 
-#include <MyGraphicsScene.h>
 #include <QPainter>
+
+#include "MyGraphicsScene.h"
 
 PolygonGraphicsItem::PolygonGraphicsItem(QGraphicsItem* parent) :
 	MyGraphicsItem(parent),
