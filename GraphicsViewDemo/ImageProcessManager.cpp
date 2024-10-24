@@ -12,7 +12,6 @@ void ImageProcessManager::setImage(const QString& name)
 void ImageProcessManager::setImage(const QImage& image)
 {
     m_pixmap=QPixmap::fromImage(image);
-	Mat mat(image.height(), image.width(), CV_8UC4, (void*)image.constBits(), image.bytesPerLine());
     convertImageToMat(image, m_source);
 }
 
@@ -21,25 +20,33 @@ void ImageProcessManager::processArea(const QPainterPath& p)
     if (m_source.empty()) return;
 
     m_path = p;
-    Mat source;
-    cvtColor(m_source, source, COLOR_BGR2GRAY);
-    QImage maskImage(source.cols, source.rows, QImage::Format_Grayscale8);
+
+    Mat graySource;
+    cvtColor(m_source, graySource, COLOR_BGR2GRAY);
+    QImage maskImage(graySource.cols, graySource.rows, QImage::Format_Grayscale8);
     maskImage.fill(Qt::color0);
+
+    // use QPainter to draw on QImage in order to create the mask
     QPainter painter(&maskImage);
     painter.setRenderHint(QPainter::Antialiasing);
     painter.setBrush(Qt::SolidPattern);
     painter.setPen(Qt::NoPen);
     painter.drawPath(p);
     painter.end();
+
+    // creating mask in order to work on region
     Mat mask(maskImage.height(), maskImage.width(), CV_8UC1, (uchar*)maskImage.bits(), maskImage.bytesPerLine());
     Mat antiMask;
     bitwise_not(mask, antiMask);
-    Mat processedSource;
-    threshold(source, processedSource, m_threshValue, 255, m_thresholdType);
-    cvtColor(processedSource, processedSource, COLOR_GRAY2BGRA);
+
+    Mat resultSource;
+    threshold(graySource, resultSource, m_threshValue, 255, m_thresholdType);
+    cvtColor(resultSource, resultSource, COLOR_GRAY2BGRA);
+
     Mat dest;
-    processedSource.copyTo(dest, antiMask);
+    resultSource.copyTo(dest, antiMask);
     bitwise_or(m_source, dest, dest, mask);
+    
     QImage result(dest.data, dest.cols, dest.rows, dest.step[0], QImage::Format_ARGB32);
     emit newImage(QPixmap::fromImage(result));
 }
