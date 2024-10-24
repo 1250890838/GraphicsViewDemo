@@ -16,15 +16,16 @@ public:
     void setRect(QRectF rect) { m_rect = rect; }
     QRectF rect() const { return m_rect; }
 
-    QRectF lastRect() { return m_lastRect; }
+    QRectF lastRect() const { return m_lastRect; }
     void updateLastRect() { m_lastRect = m_rect; }
 
+    // we need to adjust the point item position when their parent graphics item sized,moved or rotated.
     virtual void updatePointList();
     virtual QRectF boundingRect() const override;
 
     void appendPoint(PointItem* item);
-    PointItem* pointAt(int i);
-    int pointsCount();
+    PointItem* pointAt(int i) const;
+    int pointsCount() const;
     void clear();
 public slots:
     virtual void onNewLeftPressedPoint(QPointF point) {}

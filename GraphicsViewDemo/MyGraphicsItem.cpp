@@ -36,12 +36,12 @@ void MyGraphicsItem::appendPoint(PointItem* item)
 	m_points.append(item);
 }
 
-PointItem* MyGraphicsItem::pointAt(int i)
+PointItem* MyGraphicsItem::pointAt(int i) const
 {
 	return m_points[i];
 }
 
-int MyGraphicsItem::pointsCount()
+int MyGraphicsItem::pointsCount() const
 {
 	return m_points.count();
 }
