@@ -22,16 +22,16 @@ public:
     void setState(int state) { m_state = state; }
     QGraphicsItem* pixmapItem() { return m_pixmapItem; }
     void setPixmapItem(QGraphicsItem* item) { m_pixmapItem = item; }
-signals:
-    void newLeftPressedPoint(QPointF point);
-    void newHoveredPoint(QPointF point);
-    void newRightPressedPoint(QPointF point);
-
+    void clearExceptPixmapItem();
 protected:
     virtual void mouseMoveEvent(QGraphicsSceneMouseEvent* mouseEvent);
     virtual void mousePressEvent(QGraphicsSceneMouseEvent* mouseEvent);
     virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent* mouseEvent);
     virtual void wheelEvent(QGraphicsSceneWheelEvent* wheelEvent);
+signals:
+    void newLeftPressedPoint(QPointF point);
+    void newHoveredPoint(QPointF point);
+    void newRightPressedPoint(QPointF point);
 private:
     int m_state;
     QGraphicsItem* m_pixmapItem;

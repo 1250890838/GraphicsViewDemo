@@ -3,6 +3,14 @@
 #include <QImage>
 #include <QPainter>
 
+ImageProcessManager::ImageProcessManager()
+    : m_processType(ImageProcessType::None),
+    m_thresholdType(cv::THRESH_BINARY),
+    m_threshValue(0)
+{
+
+}
+
 void ImageProcessManager::setImage(const QString& name)
 {
 	QImage image(name);
@@ -17,25 +25,13 @@ void ImageProcessManager::setImage(const QImage& image)
 
 void ImageProcessManager::processArea(const QPainterPath& p)
 {
+    /*
     if (m_source.empty()) return;
-
+    cv::Mat mask=createMaskFromPath(p);
     m_path = p;
-
     Mat graySource;
     cvtColor(m_source, graySource, COLOR_BGRA2GRAY);
-    QImage maskImage(graySource.cols, graySource.rows, QImage::Format_Grayscale8);
-    maskImage.fill(Qt::color0);
-
-    // use QPainter to draw on QImage in order to create the mask
-    QPainter painter(&maskImage);
-    painter.setRenderHint(QPainter::Antialiasing);
-    painter.setBrush(Qt::SolidPattern);
-    painter.setPen(Qt::NoPen);
-    painter.drawPath(p);
-    painter.end();
-
     // creating mask in order to work on region
-    Mat mask(maskImage.height(), maskImage.width(), CV_8UC1, (uchar*)maskImage.bits(), maskImage.bytesPerLine());
     Mat antiMask;
     bitwise_not(mask, antiMask);
 
@@ -49,9 +45,25 @@ void ImageProcessManager::processArea(const QPainterPath& p)
     
     QImage result(dest.data, dest.cols, dest.rows, dest.step[0], QImage::Format_ARGB32);
     emit newImage(QPixmap::fromImage(result));
+    */
+    switch (m_processType)
+    {
+    case ImageProcessManager::ImageProcessType::None:
+        emit newImage(m_pixmap);
+        break;
+    case ImageProcessManager::ImageProcessType::Threshold:
+        // thresholdProcess();
+        break;
+    case ImageProcessManager::ImageProcessType::ContrastAndBrightness:
+        break;
+    default:
+        break;
+    }
 }
 
-void ImageProcessManager::convertImageToMat(const QImage& image,cv::OutputArray& out)
+
+
+void ImageProcessManager::convertImageToMat(const QImage& image,cv::OutputArray& out) const
 {
 	switch (image.format()) 
 	{
@@ -80,4 +92,24 @@ void ImageProcessManager::convertImageToMat(const QImage& image,cv::OutputArray&
         break;
     }
 	}
+}
+
+cv::Mat ImageProcessManager::createMaskFromPath(const QPainterPath& p) const
+{
+    // use QPainter to draw on QImage in order to create the mask
+    QImage maskImage(m_source.cols, m_source.rows, QImage::Format_Grayscale8);
+    maskImage.fill(Qt::color0);
+    QPainter painter(&maskImage);
+    painter.setRenderHint(QPainter::Antialiasing);
+    painter.setBrush(Qt::SolidPattern);
+    painter.setPen(Qt::NoPen);
+    painter.drawPath(p);
+    painter.end();
+    Mat mask(maskImage.height(), maskImage.width(), CV_8UC1, (uchar*)maskImage.bits(), maskImage.bytesPerLine());
+    return mask;
+}
+
+cv::Mat ImageProcessManager::thresholdProcess() const
+{
+    return cv::Mat();
 }

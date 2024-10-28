@@ -11,6 +11,16 @@ MyGraphicsScene::MyGraphicsScene(const QRectF& sceneRect, QObject* parent)
 {
 }
 
+void MyGraphicsScene::clearExceptPixmapItem()
+{
+	QList<QGraphicsItem*> items = this->items();
+	for (auto item : items) {
+		if (item->type() == QGraphicsPixmapItem::Type)
+			continue;
+		this->removeItem(item);
+	}
+}
+
 void MyGraphicsScene::mouseMoveEvent(QGraphicsSceneMouseEvent* mouseEvent)
 {
 	if (m_state & ForHover) {
