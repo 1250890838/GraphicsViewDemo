@@ -22,7 +22,7 @@ void ImageProcessManager::processArea(const QPainterPath& p)
     m_path = p;
 
     Mat graySource;
-    cvtColor(m_source, graySource, COLOR_BGR2GRAY);
+    cvtColor(m_source, graySource, COLOR_BGRA2GRAY);
     QImage maskImage(graySource.cols, graySource.rows, QImage::Format_Grayscale8);
     maskImage.fill(Qt::color0);
 
@@ -62,6 +62,12 @@ void ImageProcessManager::convertImageToMat(const QImage& image,cv::OutputArray&
         break;
     }
     case QImage::Format_RGB32:
+    {
+        cv::Mat view(image.height(), image.width(), CV_8UC4, (void*)image.constBits(), image.bytesPerLine());
+        view.copyTo(out);
+        break;
+    }
+    case QImage::Format_ARGB32:
     {
         cv::Mat view(image.height(), image.width(), CV_8UC4, (void*)image.constBits(), image.bytesPerLine());
         view.copyTo(out);

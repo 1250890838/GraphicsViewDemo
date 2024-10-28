@@ -26,7 +26,7 @@ MainWindow::MainWindow() :
 	m_scene(new MyGraphicsScene(QRectF(QPointF(0, 0), QPointF(600, 600)), this)),
 	m_view(new MyGraphicsView(m_scene))
 {
-	QFont font("Arial", 14, QFont::Bold);
+	QFont font("Arial", 8, QFont::Bold);
 	m_view->setViewportUpdateMode(QGraphicsView::FullViewportUpdate);
 	m_combobox = new QComboBox;
 	m_combobox->addItem("rectangle");
@@ -50,37 +50,43 @@ MainWindow::MainWindow() :
 		});
 
 	QVBoxLayout* vLeftLayout = new QVBoxLayout;
-	m_addImageButton->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-	vLeftLayout->addWidget(m_addImageButton);
-	m_combobox->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-	vLeftLayout->addWidget(m_combobox);
-	m_clearButton->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-	vLeftLayout->addWidget(m_clearButton);
+	m_addImageButton->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+	vLeftLayout->addWidget(m_addImageButton, 1, Qt::AlignHCenter);
+	m_combobox->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+	vLeftLayout->addWidget(m_combobox, 1, Qt::AlignHCenter);
+	m_clearButton->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+	vLeftLayout->addWidget(m_clearButton, 1, Qt::AlignHCenter);
+	vLeftLayout->addStretch(1);
 
 	QWidget* leftWidget = new QWidget(this);
 	leftWidget->setLayout(vLeftLayout);
 
 	m_binaryButton = new QPushButton("Binary");
+	m_binaryButton->setFont(font);
 	connect(m_binaryButton, &QPushButton::clicked,
 		[] {
 			ImageProcessManager::getInstance().setThresholdType(THRESH_BINARY);
 		});
 	m_binaryInvertedButton = new QPushButton("Binary inverted");
+	m_binaryInvertedButton->setFont(font);
 	connect(m_binaryInvertedButton, &QPushButton::clicked,
 		[] {
 			ImageProcessManager::getInstance().setThresholdType(THRESH_BINARY_INV);
 		});
 	m_thresholdTruncatedButton = new QPushButton("Truncate");
+	m_thresholdTruncatedButton->setFont(font);
 	connect(m_thresholdTruncatedButton, &QPushButton::clicked,
 		[] {
 			ImageProcessManager::getInstance().setThresholdType(THRESH_TRUNC);
 		});
 	m_thresholdToZeroButton = new QPushButton("Threshold to zero");
+	m_thresholdToZeroButton->setFont(font);
 	connect(m_thresholdToZeroButton, &QPushButton::clicked,
 		[] {
 			ImageProcessManager::getInstance().setThresholdType(THRESH_TOZERO);
 		});
 	m_thresholdToZeroInvertedButton = new QPushButton("Threshold to zero inverted");
+	m_thresholdToZeroInvertedButton->setFont(font);
 	connect(m_thresholdToZeroInvertedButton, &QPushButton::clicked,
 		[] {
 			ImageProcessManager::getInstance().setThresholdType(THRESH_TOZERO_INV);
@@ -93,18 +99,19 @@ MainWindow::MainWindow() :
 	m_slider->setOrientation(Qt::Horizontal);
 	
 	QVBoxLayout* vRightLayout = new QVBoxLayout;
-	m_binaryButton->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-	vRightLayout->addWidget(m_binaryButton, 1);
-	m_binaryInvertedButton->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-	vRightLayout->addWidget(m_binaryInvertedButton, 1);
-	m_thresholdTruncatedButton->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-	vRightLayout->addWidget(m_thresholdTruncatedButton, 1);
-	m_thresholdToZeroButton->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-	vRightLayout->addWidget(m_thresholdToZeroButton, 1);
-	m_thresholdToZeroInvertedButton->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-	vRightLayout->addWidget(m_thresholdToZeroInvertedButton, 1);
-	m_slider->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-	vRightLayout->addWidget(m_slider, 4);
+	m_binaryButton->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+	vRightLayout->addWidget(m_binaryButton, 1, Qt::AlignHCenter);
+	m_binaryInvertedButton->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+	vRightLayout->addWidget(m_binaryInvertedButton, 1, Qt::AlignHCenter);
+	m_thresholdTruncatedButton->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+	vRightLayout->addWidget(m_thresholdTruncatedButton, 1, Qt::AlignHCenter);
+	m_thresholdToZeroButton->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+	vRightLayout->addWidget(m_thresholdToZeroButton, 1, Qt::AlignHCenter);
+	m_thresholdToZeroInvertedButton->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+	vRightLayout->addWidget(m_thresholdToZeroInvertedButton, 1,Qt::AlignHCenter);
+	m_slider->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+	vRightLayout->addWidget(m_slider, 1,Qt::AlignHCenter);
+	vRightLayout->addStretch(1);
 
 	QWidget* rightWidget = new QWidget;
 	rightWidget->setLayout(vRightLayout);
@@ -113,6 +120,9 @@ MainWindow::MainWindow() :
 	splitter->addWidget(leftWidget);
 	splitter->addWidget(m_view);
 	splitter->addWidget(rightWidget);
+	splitter->setStretchFactor(0, 0);
+	splitter->setStretchFactor(1, 1);
+	splitter->setStretchFactor(2, 0);
 
 	this->setCentralWidget(splitter);
 
