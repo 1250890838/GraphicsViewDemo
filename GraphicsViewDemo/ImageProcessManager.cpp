@@ -52,9 +52,9 @@ void ImageProcessManager::processArea(const QPainterPath& p)
         emit newImage(m_pixmap);
         break;
     case ImageProcessManager::ImageProcessType::Threshold:
-        // thresholdProcess();
+        thresholdProcess();
         break;
-    case ImageProcessManager::ImageProcessType::ContrastAndBrightness:
+    case ImageProcessManager::ImageProcessType::Blob:
         break;
     default:
         break;

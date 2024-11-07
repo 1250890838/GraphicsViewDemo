@@ -79,9 +79,7 @@ void MyGraphicsItem::mouseReleaseEvent(QGraphicsSceneMouseEvent* event)
 
 void MyGraphicsItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget)
 {
-	QPen pen(Qt::red);
-	pen.setWidth(4);
-	painter->setPen(pen);
+	painter->setPen(m_paintPen);
 }
 
 void MyGraphicsItem::updatePointList()

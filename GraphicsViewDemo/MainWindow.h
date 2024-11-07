@@ -16,6 +16,7 @@ public:
 private slots:
     void onShapeSelectionChanged(int index);
     void onAddImage();
+    void onLineColorButtonClicked();
 private:
     QComboBox* m_combobox;
     QPushButton* m_addImageButton;
@@ -28,4 +29,6 @@ private:
     QPushButton* m_thresholdToZeroButton;
     QPushButton* m_thresholdToZeroInvertedButton;
     QSlider* m_slider;
+
+    QPushButton* m_lineColorButton;
 };

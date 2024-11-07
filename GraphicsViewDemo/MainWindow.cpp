@@ -10,6 +10,7 @@
 #include <QSlider>
 #include <QGridLayout>
 #include <QApplication>
+#include <QColorDialog>
 
 #include "MyGraphicsScene.h"
 #include "MyGraphicsView.h"
@@ -97,7 +98,10 @@ MainWindow::MainWindow() :
 		ImageProcessManager::getInstance().setThresh(value);
 		});
 	m_slider->setOrientation(Qt::Horizontal);
-	
+
+	m_lineColorButton = new QPushButton;
+	connect(m_lineColorButton, &QPushButton::clicked, this, &MainWindow::onLineColorButtonClicked);
+
 	QVBoxLayout* vRightLayout = new QVBoxLayout;
 	m_binaryButton->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
 	vRightLayout->addWidget(m_binaryButton, 1, Qt::AlignHCenter);
@@ -108,9 +112,13 @@ MainWindow::MainWindow() :
 	m_thresholdToZeroButton->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
 	vRightLayout->addWidget(m_thresholdToZeroButton, 1, Qt::AlignHCenter);
 	m_thresholdToZeroInvertedButton->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-	vRightLayout->addWidget(m_thresholdToZeroInvertedButton, 1,Qt::AlignHCenter);
+	vRightLayout->addWidget(m_thresholdToZeroInvertedButton, 1, Qt::AlignHCenter);
 	m_slider->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-	vRightLayout->addWidget(m_slider, 1,Qt::AlignHCenter);
+	vRightLayout->addWidget(m_slider, 1, Qt::AlignHCenter);
+	m_lineColorButton->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+	m_lineColorButton->setAutoFillBackground(true);
+	m_lineColorButton->setFlat(true);
+	vRightLayout->addWidget(m_lineColorButton, 1, Qt::AlignHCenter);
 	vRightLayout->addStretch(1);
 
 	QWidget* rightWidget = new QWidget;
@@ -139,13 +147,23 @@ void MainWindow::onAddImage() {
 	auto item = m_scene->addPixmap(QPixmap(fileName));
 	m_scene->setPixmapItem(item);
 	connect(&ImageProcessManager::getInstance(), &ImageProcessManager::newImage,
-		[this](QPixmap pixmap) { 
+		[this](QPixmap pixmap) {
 			dynamic_cast<QGraphicsPixmapItem*>(m_scene->pixmapItem())->setPixmap(pixmap); }
 	);
-	m_scene->pixmapItem()->setFlags(QGraphicsItem::ItemIsMovable
-		| QGraphicsItem::ItemIsFocusable
-		| QGraphicsItem::ItemIsSelectable);
+	item->moveBy((m_scene->width() - item->boundingRect().width()) / 2, (m_scene->height() - item->boundingRect().height()) / 2);
 	ImageProcessManager::getInstance().setImage(fileName);
+}
+
+void MainWindow::onLineColorButtonClicked()
+{
+	QColor selectedColor = QColorDialog::getColor();
+	auto button=qobject_cast<QPushButton*>(sender());
+	QPalette palette = button->palette();
+	palette.setColor(QPalette::Button, selectedColor);
+	palette.setColor(QPalette::Window, selectedColor);
+	palette.setColor(QPalette::Base, selectedColor);
+	button->setPalette(palette);
+	button->update();
 }
 
 void MainWindow::onShapeSelectionChanged(int index) {
@@ -184,9 +202,10 @@ void MainWindow::onShapeSelectionChanged(int index) {
 		break;
 	}
 	if (item) {
-		connect(m_scene, &MyGraphicsScene::newLeftPressedPoint,item, &MyGraphicsItem::onNewLeftPressedPoint);
+		connect(m_scene, &MyGraphicsScene::newLeftPressedPoint, item, &MyGraphicsItem::onNewLeftPressedPoint);
 		connect(m_scene, &MyGraphicsScene::newHoveredPoint, item, &MyGraphicsItem::onNewHoveredPoint);
 		connect(m_scene, &MyGraphicsScene::newRightPressedPoint, item, &MyGraphicsItem::onNewRightPressedPoint);
+		item->setLineColor(m_lineColorButton->palette().color(QPalette::Button));
 		m_scene->addItem(item);
 	}
 }

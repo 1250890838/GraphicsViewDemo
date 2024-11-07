@@ -19,6 +19,8 @@ public:
     QRectF lastRect() const { return m_lastRect; }
     void updateLastRect() { m_lastRect = m_rect; }
 
+    void setLineColor(QColor color) { m_paintPen.setColor(color); }
+    QColor lineColor() { return m_paintPen.color(); }
     // we need to adjust the point item position when their parent graphics item sized,moved or rotated.
     virtual void updatePointList();
     virtual QRectF boundingRect() const override;
@@ -43,4 +45,6 @@ protected:
     QRectF m_rect;
     QRectF m_lastRect;
     QList<PointItem*> m_points;
+private:
+    QPen m_paintPen;
 };

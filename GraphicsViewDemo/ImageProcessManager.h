@@ -13,7 +13,7 @@ public:
 	enum class ImageProcessType {
 		None,
 		Threshold,
-		ContrastAndBrightness
+		Blob
 	};
 public:
 	static ImageProcessManager& getInstance() {
