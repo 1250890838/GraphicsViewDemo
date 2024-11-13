@@ -67,7 +67,7 @@ void PolygonGraphicsItem::mouseReleaseEvent(QGraphicsSceneMouseEvent* event)
 
 void PolygonGraphicsItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget)
 {
-	MyGraphicsItem::paint(painter, option, widget);
+	painter->setPen(pen());
 	QPolygonF polygon;
 	for (auto point : m_points) {
 		polygon.append(point->pos()-QPointF{-4,-4});

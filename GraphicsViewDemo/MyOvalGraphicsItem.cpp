@@ -36,7 +36,7 @@ void OvalGraphicsItem::mouseReleaseEvent(QGraphicsSceneMouseEvent* event)
 
 void OvalGraphicsItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget)
 {
-	MyGraphicsItem::paint(painter, option, widget);
+	painter->setPen(pen());
 	painter->drawEllipse(m_rect);
 }
 

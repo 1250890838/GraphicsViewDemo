@@ -30,7 +30,7 @@ void CircleGraphicsItem::onNewRightPressedPoint(QPointF point)
 
 	m_points[2]->setPos(point);
 
-	pointsDetermineCircle();
+	threePointsDetermineCircle();
 	for (auto item : m_points) {
 		scene()->removeItem(item);
 		delete item;
@@ -54,7 +54,7 @@ void CircleGraphicsItem::onNewHoveredPoint(QPointF point)
 		enablePainting = true;
 	}
 	m_points[2]->setPos(point);
-	pointsDetermineCircle();
+	threePointsDetermineCircle();
 }
 
 void CircleGraphicsItem::mouseMoveEvent(QGraphicsSceneMouseEvent* event)
@@ -92,7 +92,7 @@ void CircleGraphicsItem::mouseReleaseEvent(QGraphicsSceneMouseEvent* event)
 void CircleGraphicsItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget)
 {
 	if (!enablePainting) return;
-	MyGraphicsItem::paint(painter, option, widget);
+	painter->setPen(pen());
 	painter->drawEllipse(m_rect);
 }
 
@@ -107,7 +107,7 @@ QPainterPath CircleGraphicsItem::shape() const
 	return path;
 }
 
-void CircleGraphicsItem::pointsDetermineCircle()
+void CircleGraphicsItem::threePointsDetermineCircle()
 {
 	qreal radius;
 	QPointF center;

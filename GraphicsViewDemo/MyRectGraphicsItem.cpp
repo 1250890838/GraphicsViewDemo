@@ -34,6 +34,6 @@ void RectGraphicsItem::mouseReleaseEvent(QGraphicsSceneMouseEvent* event)
 
 void RectGraphicsItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget)
 {
-	MyGraphicsItem::paint(painter, option, widget);
+	painter->setPen(pen());
 	painter->drawRect(m_rect);
 }

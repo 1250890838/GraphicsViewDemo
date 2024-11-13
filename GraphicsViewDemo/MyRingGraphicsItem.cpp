@@ -15,6 +15,12 @@ RingGraphicsItem::RingGraphicsItem(QGraphicsItem* parent)
 {
 }
 
+void RingGraphicsItem::setPen(const QPen& pen)
+{
+	MyGraphicsItem::setPen(pen);
+	m_outerItem->setPen(pen);
+}
+
 void RingGraphicsItem::mouseMoveEvent(QGraphicsSceneMouseEvent* event)
 {
 	CircleGraphicsItem::mouseMoveEvent(event);
@@ -42,7 +48,7 @@ void RingGraphicsItem::onNewLeftPressedPoint(QPointF point) {
 		myScene->setState(MyGraphicsScene::ForLeftPress | MyGraphicsScene::ForHover);
 	else if (m_points.count() == 3) {
 		m_points[2]->setPos(point);
-		pointsDetermineCircle();
+		threePointsDetermineCircle();
 		myScene->setState(MyGraphicsScene::ForRightPress | MyGraphicsScene::ForHover);
 		PointItem* item = new PointItem(nullptr, PointItem::Paint);
 		item->setPos(point);
@@ -96,11 +102,11 @@ void RingGraphicsItem::onNewHoveredPoint(QPointF point) {
 		scene()->addItem(item);
 		this->appendPoint(item);
 		this->enablePainting = true;
-		this->pointsDetermineCircle();
+		this->threePointsDetermineCircle();
 	}
 	else if (this->pointsCount() == 3 && !m_outerItem->pointsCount()) {
 		this->pointAt(2)->setPos(point);
-		this->pointsDetermineCircle();
+		this->threePointsDetermineCircle();
 	}
 	else if (m_outerItem->pointsCount()) {
 		m_outerItem->pointAt(0)->setPos(point);

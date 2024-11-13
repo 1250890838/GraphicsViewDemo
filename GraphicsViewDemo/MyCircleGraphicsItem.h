@@ -7,7 +7,7 @@ class CircleGraphicsItem :
     Q_OBJECT
 public:
     CircleGraphicsItem(QGraphicsItem* parent);
-    void pointsDetermineCircle();
+    void threePointsDetermineCircle();
 public slots:
     virtual void onNewLeftPressedPoint(QPointF point) override;
     virtual void onNewRightPressedPoint(QPointF point) override;

@@ -115,9 +115,12 @@ MainWindow::MainWindow() :
 	vRightLayout->addWidget(m_thresholdToZeroInvertedButton, 1, Qt::AlignHCenter);
 	m_slider->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
 	vRightLayout->addWidget(m_slider, 1, Qt::AlignHCenter);
+	auto palette = m_lineColorButton->palette();
+	palette.setColor(QPalette::Button, QColor(Qt::white));
+	m_lineColorButton->setPalette(palette);
 	m_lineColorButton->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
 	m_lineColorButton->setAutoFillBackground(true);
-	m_lineColorButton->setFlat(true);
+	m_lineColorButton->setFlat(false);
 	vRightLayout->addWidget(m_lineColorButton, 1, Qt::AlignHCenter);
 	vRightLayout->addStretch(1);
 
@@ -205,7 +208,7 @@ void MainWindow::onShapeSelectionChanged(int index) {
 		connect(m_scene, &MyGraphicsScene::newLeftPressedPoint, item, &MyGraphicsItem::onNewLeftPressedPoint);
 		connect(m_scene, &MyGraphicsScene::newHoveredPoint, item, &MyGraphicsItem::onNewHoveredPoint);
 		connect(m_scene, &MyGraphicsScene::newRightPressedPoint, item, &MyGraphicsItem::onNewRightPressedPoint);
-		item->setLineColor(m_lineColorButton->palette().color(QPalette::Button));
+		item->setPen(QPen(m_lineColorButton->palette().color(QPalette::Button),10));
 		m_scene->addItem(item);
 	}
 }

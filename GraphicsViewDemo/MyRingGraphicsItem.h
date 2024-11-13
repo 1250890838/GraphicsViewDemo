@@ -7,6 +7,8 @@ class RingGraphicsItem :
     Q_OBJECT
 public:
     RingGraphicsItem(QGraphicsItem* parent);
+    virtual void setPen(const QPen& pen) override;
+
 public slots:
     virtual void onNewLeftPressedPoint(QPointF point) override;
     virtual void onNewRightPressedPoint(QPointF point) override;

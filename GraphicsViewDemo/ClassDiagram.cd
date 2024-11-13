@@ -24,7 +24,7 @@
   <Class Name="MyGraphicsItem" Collapsed="true">
     <Position X="11" Y="0.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AFEAAAAAAAgAggAAAAAAIAAAAAAAABCBAAAAAAEgEAA=</HashCode>
+      <HashCode>AFEAAAAAAAgAggAAAAgAIAAAAAAAAACBAAAAgAAgEAA=</HashCode>
       <FileName>MyGraphicsItem.h</FileName>
     </TypeIdentifier>
   </Class>
@@ -36,14 +36,14 @@
     </TypeIdentifier>
   </Class>
   <Class Name="MyGraphicsView" Collapsed="true">
-    <Position X="14" Y="1" Width="1.5" />
+    <Position X="5.75" Y="4.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAIAAAAACAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAA=</HashCode>
       <FileName>MyGraphicsView.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="MyTestPaintItem" Collapsed="true">
-    <Position X="7.25" Y="2.5" Width="1.5" />
+    <Position X="7.25" Y="2.5" Width="1.25" />
     <TypeIdentifier>
       <HashCode>AAgAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAA=</HashCode>
       <FileName>MyTestPaintItem.h</FileName>
@@ -64,7 +64,7 @@
     </TypeIdentifier>
   </Class>
   <Class Name="PolygonGraphicsItem" Collapsed="true">
-    <Position X="9" Y="2.5" Width="1.5" />
+    <Position X="9" Y="2.5" Width="1.25" />
     <TypeIdentifier>
       <HashCode>AAgEAAAAAUBAAAAAAAAAAABAAAUQAAAAAIAAAAAABAA=</HashCode>
       <FileName>MyPolygonGraphicsItem.h</FileName>
@@ -78,7 +78,7 @@
     </TypeIdentifier>
   </Class>
   <Class Name="RingGraphicsItem" Collapsed="true">
-    <Position X="12.5" Y="2.5" Width="1.5" />
+    <Position X="10.75" Y="4" Width="1.5" />
     <TypeIdentifier>
       <HashCode>ABgEAAAAAQFAAAAAAAAAAABAABAQAAAAAAAAAAAABAA=</HashCode>
       <FileName>MyRingGraphicsItem.h</FileName>
